@@ -56,3 +56,27 @@ std::vector<std::string> read_input(std::string file_name, std::string separator
 
    return input;
 }
+
+// convert vector of strings to vector of ints
+std::vector<int> input_to_int(std::vector<std::string> input){
+
+   std::vector<int> output;
+
+   for (int i=0; i<input.size(); i++){
+      output.push_back(std::stoi(input[i]));
+   }
+
+   return output;
+}
+
+// convert vector of strings to vector of doubles
+std::vector<double> input_to_double(std::vector<std::string> input){
+
+   std::vector<double> output;
+
+   for (int i=0; i<input.size(); i++){
+      output.push_back(std::stod(input[i]));
+   }
+
+   return output;
+}
