@@ -50,7 +50,16 @@ int main(){
 
     }
 
-    std::cout << "Max id: " << *std::max_element(std::begin(seat_id), std::end(seat_id)) << std::endl;
+    //std::cout << "Max id: " << *std::max_element(std::begin(seat_id), std::end(seat_id)) << std::endl;
+
+    // sort the list of ids
+    std::sort(seat_id.begin(), seat_id.end());
+
+    for (int i=0; i<seat_id.size(); i++){
+        if ( (seat_id[i]+2) == seat_id[i+1] ){
+            std::cout << "Missing seat: " << seat_id[i]+1 << std::endl;
+        }
+    }
 
     return 0;
 
