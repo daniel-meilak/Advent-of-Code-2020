@@ -38,7 +38,8 @@ int main(){
     long long int invalid;
     int invalid_index;
 
-    for (int i=25; i<input.size(); i++){
+    // loop through check looking for false value (invalid number)
+    for (int i=25; i<check.size(); i++){
 
         if ( !check[i] ){
             std::cout << i+1 << ") " << input[i] << std::endl;
@@ -48,16 +49,21 @@ int main(){
     }
 
 
+    // part two
     long long int sum = 0;
     int min = 0;
+
+    // loop from index 0 to invalid number
     for ( int i=0; i<invalid_index; i++){
 
+        // add together numbers until the value of invalid number is reacher or exceeded
         sum += input[i];
 
         if ( sum == invalid ){
             std::cout << "Min index: " << min+1 << " Value: " << input[min] << std::endl;
             std::cout << "Max index: " << i+1   << " Value: " << input[i]   << std::endl;
             
+            // add together min and max value in range to find "encryption weakness"
             long long int min_val = *std::min_element(input.begin()+min, input.begin()+i);
             long long int max_val = *std::max_element(input.begin()+min, input.begin()+i);
             
@@ -65,6 +71,7 @@ int main(){
             break;
         }
         else if (sum > invalid){
+            
             // increase min
             min++;
 
