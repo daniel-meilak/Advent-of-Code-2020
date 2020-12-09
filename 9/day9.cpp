@@ -19,10 +19,7 @@ int main(){
         // get two numbers, a and b, in past 25
         for (int a=(i-25); a<(i-1); a++){
             for (int b=(a+1); b<i; b++){
-
-                // std::cout << "a= " << a << std::endl;
-                // std::cout << "b= " << b << std::endl;
-
+                
                 // if input[a] and input[b] sum to current number, found summation
                 if ( (input[a] + input[b]) == input[i] ){
                     check[i] = true;
@@ -71,7 +68,7 @@ int main(){
             break;
         }
         else if (sum > invalid){
-            
+
             // increase min
             min++;
 
