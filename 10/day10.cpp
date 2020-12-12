@@ -10,41 +10,74 @@ int main(){
     // read input into vector of ints.
     std::vector<int> input = input_to_int(read_input("input", ""));
 
+    // add socket to input
+    input.push_back(0);
+
     // sort plugs
     std::sort(input.begin(), input.end());
 
-    // difference counter
-    // number of 1 jold diff stored in [0], 2 jolt in [1] and 3 jolt in [2]
-    std::vector<int> diff = {0,0,0};
+    // add appliance to input
+    input.push_back(input[input.size()-1]+3);
+    
+    // vector of differences
+    std::vector<int> diff;
 
-    // first adapter has 1 jolt diff and last to appliance has 3
-    diff[0]++;
-    diff[2]++;
+    // find difference between each adaptor and store in diff
+    for (int i=1; i<input.size(); i++){
+        diff.push_back(input[i]-input[i-1]);
+    }
 
-    for ( int i=1; i<input.size(); i++ ){
+    // number of 1 and 3 differences
+    int diff_1 = std::count(diff.begin(), diff.end(), 1);
+    int diff_3 = std::count(diff.begin(), diff.end(), 3);
 
-        int step = input[i]-input[i-1];
+    // output answer
+    std::cout << "Answer (part 1): " << diff_1*diff_3 << std::endl;
 
-        if ( step == 1 ){
-            diff[0]++;
+    // consecutive diff vector
+    std::vector<int> consecutive;
+
+    int count = 1;
+    // find consecutive differences
+    for (int i=1; i<diff.size(); i++){
+
+        // ignore 3's 
+        if ( diff[i] == 3 ){
+            continue;
         }
-        else if ( step == 2 ){
-            diff[1]++;
-        }
-        else if (step == 3 ){
-            diff[2]++;
+
+        // count consecutive 1's
+        if ( diff[i] == diff[i-1] ){
+            count++;
         }
         else {
-            std::cout << "Difference between adaptors " << i-1 << " and " 
-                      << i << " is too high (" << step << ")" << std::endl; 
+            consecutive.push_back(count);
+            count = 1;
+        }
+    }
+    consecutive.push_back(count);
+
+    // there is only 1 way to pass through differences of 3 (all paths pass through)
+    // there are 7 ways to pass through 4 consecutive 1's
+    // there are 4 ways to pass through 3 consecutive 1's
+    // there are 2 ways to pass through 2 consecutive 1's
+    
+    long long int sum = 1;
+
+    for (int num : consecutive){
+
+        if ( num == 4 ){
+            sum *= 7;
+        }
+        else if ( num == 3 ){
+            sum *= 4;
+        }
+        else if ( num == 2 ){
+            sum *= 2;
         }
     }
 
-    std::cout << "Step differences: " << std::endl;
-    std::cout << "1: " << diff[0] << std::endl;
-    std::cout << "2: " << diff[1] << std::endl;
-    std::cout << "3: " << diff[2] << std::endl << std::endl;
-    std::cout << "Key: " << diff[0]*diff[2] << std::endl;
+    std::cout << "Answer (part 2): " << sum << std::endl;
 
     return 0;
 }
