@@ -1,7 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<string>
-#include"utils.h"
+#include"../utils/utils.h"
 
 void tree_count(int right, int down, std::vector<std::string>& input);
 
