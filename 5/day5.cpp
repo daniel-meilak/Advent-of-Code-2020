@@ -3,7 +3,7 @@
 #include<string>
 #include<algorithm>
 #include<cstdlib>
-#include"utils.h"
+#include"../utils/utils.h"
 
 int main(){
 

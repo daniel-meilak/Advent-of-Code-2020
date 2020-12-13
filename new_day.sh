@@ -4,14 +4,12 @@
 
 mkdir $1
 
-cp utils/util* $1/
-
 echo "#include<iostream>
 #include<vector>
 #include<string>
 #include<algorithm>
 #include<cstdlib>
-#include\"utils.h\"
+#include\"../utils/utils.h\"
 
 int main(){
 
@@ -26,7 +24,7 @@ echo "#include<iostream>
 #include<string>
 #include<algorithm>
 #include<cstdlib>
-#include\"utils.h\"
+#include\"../utils/utils.h\"
 
 int main(){
 

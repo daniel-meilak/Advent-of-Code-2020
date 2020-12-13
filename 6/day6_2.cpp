@@ -3,7 +3,7 @@
 #include<string>
 #include<algorithm>
 #include<cstdlib>
-#include"utils.h"
+#include"../utils/utils.h"
 
 std::string string_intersection( std::vector<std::string> group, int n );
 
