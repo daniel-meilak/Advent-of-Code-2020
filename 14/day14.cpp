@@ -3,24 +3,33 @@
 #include<string>
 #include<algorithm>
 #include<cstdlib>
+#include<bitset>
+#include<list>
+#include<map>
 #include"../utils/utils.h"
 
-int find_address( std::string line );
+long int find_address( std::string line );
 long int find_value( std::string line );
+std::vector<long int> apply_mask2( long int &value, std::string mask );
+std::vector<long int> floating_binary( std::string line );
 void apply_mask( long int &value, std::string mask );
-void set_bit(long int &num, int position);
-void clear_bit(long int &num, int position);
+void set_bit( long int &num, int position );
+void clear_bit( long int &num, int position );
 
 int main(){
 
     // read input into vector of strings.
     std::vector<std::string> input = read_input("input", "");
 
-    // initialize memory vector (size 100k, 0 initial)
-    std::vector<long int> memory(100000,0);
+    // Memory map (cant use 0-size as too large)
+    std::map<long int, long int> memory;
 
     // place to hold the current mask
     std::string mask;
+
+    // total to hold answer
+    long int total = 0;
+
 
     // work through input
     for ( std::string line : input ){
@@ -36,24 +45,34 @@ int main(){
         else {
 
             // store address and value
-            int address      = find_address(line);
+            long int address = find_address(line);
             long int value   = find_value(line);
 
-            // mask value
-            apply_mask(value, mask);
+            
+            // part 1:
+            // // mask value
+            // apply_mask(value, mask);
+            // // insert into memory
+            // memory[address] = value;
 
-            // insert into memory
-            memory[address] = value;
+            // part 2:
+            // find the floating addresses
+            std::vector<long int> floating_address;
+            floating_address = apply_mask2(address,mask);
+
+            // add values to memory map
+            for ( long int index : floating_address ){
+                memory[index] = value;
+            }
         }
     }
 
-    // answer is sum of all memory values
-    long int sum = 0;
-    for ( long int value : memory){
-        sum += value; 
+    // loop through memory map and add keys (memory values)
+    for ( auto const& entry : memory){
+        total += entry.second;
     }
 
-    std::cout << "Answer (part 1): " << sum << std::endl;
+    std::cout << "Answer: " << total << std::endl;
 
     return 0;
 }
@@ -61,7 +80,7 @@ int main(){
 // apply mask to a value
 // 1 sets value to 1
 // 0 sets value to 0
-// X do nothing
+// X does nothing
 void apply_mask( long int &value, std::string mask ){
 
     for (int i=0; i<mask.size(); i++){
@@ -76,6 +95,80 @@ void apply_mask( long int &value, std::string mask ){
             clear_bit(value, (mask.size()-i)-1 );
         }
     }
+}
+
+
+// apply mask to a value
+// 1 sets value to 1
+// 0 does nothing
+// X creates floating values which need to be resolved
+std::vector<long int> apply_mask2( long int &value, std::string mask ){
+
+    // conver address to binary (string)
+    std::string binary = std::bitset<36>(value).to_string();
+
+    for (int i=0; i<mask.size(); i++){
+
+        // if mask bit == 'X' set address bit to 'X'
+        if ( mask[i] == 'X' ){
+            binary[i] = 'X';
+        }
+        // if mask bit == '1' set address bit to '1'
+        else if ( mask[i] == '1' ){
+            binary[i] = '1';
+        }
+        // if mask bit == '0' do nothing
+    }
+
+    // resolve 'X's in value
+    return floating_binary(binary);
+
+}
+
+
+// finds the floating values such that string 'XX'
+// become vector<string> {'11','10','01','00'}
+// which is converted to vector<int> {3,2,1,0}
+std::vector<long int> floating_binary( std::string line ){
+
+    // combinations holds string, values int version
+    std::vector<std::string> combinations;
+    std::vector<long int> values;
+
+    // key holds unresolved values (contain 'X')
+    std::list<std::string> key;
+    key.push_back(line);
+
+    // while values remain unresolved (containing 'X')
+    while ( key.size() > 0 ){
+        
+        // find the next 'X'
+        int pos = key.front().find('X');
+        // if value doesnt contain 'X' add to finished list and remove
+        if ( pos == std::string::npos ){
+            combinations.push_back(key.front());
+            key.pop_front();
+            continue;
+        }
+
+        // resolve current 'X' to a '0' and '1'
+        // and add these back to the key incase more 'X' left over
+        key.front()[pos] = '0';
+        key.push_back(key.front());
+
+        key.front()[pos] = '1';
+        key.push_back(key.front());
+
+        // remove partially resolved value
+        key.pop_front();
+    }
+
+    // change values from binary (string) to int
+    for ( std::string binary : combinations ){
+        values.push_back(std::bitset<36>(binary).to_ulong());
+    }
+
+    return values;
 }
 
 // set bit at position to 1
@@ -93,11 +186,11 @@ void clear_bit(long int &num, int position)
 }
 
 // exctract address from line
-int find_address( std::string line ){
+long int find_address( std::string line ){
 
     int pos = line.find(']');
 
-    return std::stoi(line.substr(4, pos-4));
+    return std::stol(line.substr(4, pos-4));
 }
 
 // extract value from line
