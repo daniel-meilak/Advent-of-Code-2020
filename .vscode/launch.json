@@ -23,12 +23,7 @@
                 }
             ],
             "preLaunchTask": "G++ Build",
-            "miDebuggerPath": "/usr/bin/gdb",
-            "logging": {
-                "trace": true,
-                "traceResponse": false,
-                "engineLogging": false
-            }
+            "miDebuggerPath": "/usr/bin/gdb"
         }
     ]
 }
