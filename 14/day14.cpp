@@ -58,6 +58,10 @@ int main(){
     return 0;
 }
 
+// apply mask to a value
+// 1 sets value to 1
+// 0 sets value to 0
+// X do nothing
 void apply_mask( long int &value, std::string mask ){
 
     for (int i=0; i<mask.size(); i++){
@@ -74,18 +78,21 @@ void apply_mask( long int &value, std::string mask ){
     }
 }
 
+// set bit at position to 1
 void set_bit(long int &num, int position)
 {
 	long int mask = 1UL << position;
 	num =  num | mask;
 }
 
+// clear bit at position to 0
 void clear_bit(long int &num, int position)
 {
 	long int mask = 1UL << position;
 	num = num & ~mask;
 }
 
+// exctract address from line
 int find_address( std::string line ){
 
     int pos = line.find(']');
@@ -93,6 +100,7 @@ int find_address( std::string line ){
     return std::stoi(line.substr(4, pos-4));
 }
 
+// extract value from line
 long int find_value( std::string line ){
 
     int pos = line.find('=');
