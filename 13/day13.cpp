@@ -26,13 +26,16 @@ int main(){
         bus_lines.push_back(std::stoi(input[i]));
     }
 
+    // resize vector to store values
     time_diff.resize(bus_lines.size());
 
+    // calculate the number of minutes till bus leaves from target
     for (int i=0; i<bus_lines.size(); i++){
 
         time_diff[i] = bus_lines[i] - (target % bus_lines[i]);
     }
 
+    // find the minimum time difference ('it' is an iterator to the position of the min)
     auto it = std::min_element(time_diff.begin(), time_diff.end());
 
     std::cout << "Answer (part 1): " << bus_lines[it - time_diff.begin()]* *it   << std::endl;
