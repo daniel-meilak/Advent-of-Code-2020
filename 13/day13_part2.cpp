@@ -5,7 +5,7 @@
 #include<cstdlib>
 #include<utility>
 #include"../utils/utils.h"
-#include"../utils/math_func.h"
+#include"../utils/math_func.cpp"
 
 int main(){
 
@@ -22,10 +22,12 @@ int main(){
 
         int line = std::stoi(input[i]);
 
+        // store bus lines (n_k) and line-index (a_k) values 
         bus_line.push_back(line);
         index.push_back( line- ((i-1) % line) );
     }
 
+    // find the answer using chinese remainder theorem
     long long int answer = chinese_remainder(bus_line, index);
     
     std::cout << "Answer (part 2): " << answer << std::endl;
