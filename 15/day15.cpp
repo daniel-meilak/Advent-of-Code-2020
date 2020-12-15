@@ -19,8 +19,8 @@ int main(){
     //std::list<int> sequence;
 
     // (unordered) map to store terms and the pos of last occurence
-    //std::unordered_map<int,int> last_occurence;
-    std::map<int,int> last_occurence;
+    std::unordered_map<int,int> last_occurence;
+    //std::map<int,int> last_occurence;
 
     // fill initial sequence from input
     for ( int i=0; i<input.size()-1; i++ ){
@@ -60,7 +60,7 @@ int main(){
     auto t2 = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count();
 
-    std::cout << "Term 30000000: " << sequence.back() << std::endl;
+    std::cout << "Term " << sequence_length << " is: " << last_term << std::endl;
 
     // print calc time for comparing map, unordered_map, vector, list usage
     std::cout << duration << std::endl;    
