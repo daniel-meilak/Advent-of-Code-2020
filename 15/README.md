@@ -2,7 +2,7 @@
 
 For day 15 I have benchmarked a few different version of the program used to find the answer. The benchmark timings are crudely collated using 3 averaged runs using various optimization levels. It is highly likely that optimization levels are irrelevant as the programs are not complicated and are more likely to be overoptimized. Nonetheless the results are shown below:
 
-![Benchmark times](day15-benchmark.jpg | width=75)
+<img src="day15-benchmark.jpg" width="48">
 
 ### Version 1
 
