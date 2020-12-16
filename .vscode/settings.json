@@ -47,6 +47,10 @@
         "cinttypes": "cpp",
         "functional": "cpp",
         "iterator": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "chrono": "cpp",
+        "cstring": "cpp",
+        "ratio": "cpp",
+        "regex": "cpp"
     }
 }
