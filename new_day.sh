@@ -17,7 +17,7 @@ int main(){
     std::vector<std::string> input = read_input(\"input\", \"\");
 
     return 0;
-}" >> $1/day${1}.cpp
+}" >> $1/${1}.cpp
 
 echo "#include<iostream>
 #include<vector>
