@@ -14,16 +14,27 @@ int main(){
     // read input into vector of strings.
     std::vector<std::string> input = read_input("input", "");
 
-    // initialize 3D system vector
-    std::vector<std::vector<std::vector<bool>>> p_dim(22, std::vector<std::vector<bool>>(22, std::vector<bool>(15,false)));
+    // system buffer is number of cycles+1
+    // total sizes are core size + 2*buffer
+    int buffer = 7;
+    int x_tot = input.size()+(buffer*2);
+    int y_tot = input[0].size()+(buffer*2);
+    int z_tot = 1+(buffer*2);
 
+    // initialize 3D system vector
+    std::vector<std::vector<std::vector<bool>>> p_dim(x_tot, std::vector<std::vector<bool>>(y_tot, std::vector<bool>(z_tot,false)));
+
+    // core limits are core size + buffer
+    int x_max = buffer+input.size();
+    int y_max = buffer+input[0].size();
+    int z_max = buffer+1;
 
     // fill system with input at centre
-    for (int x=7; x<15; x++){
-        for (int y=7; y<15; y++){
+    for (int x=buffer; x<x_max; x++){
+        for (int y=buffer; y<y_max; y++){
 
-            if ( input[x-7][y-7] == '#' ){
-                p_dim[x][y][7] = true;
+            if ( input[x-buffer][y-buffer] == '#' ){
+                p_dim[x][y][buffer] = true;
             }
         }
     }
@@ -34,9 +45,9 @@ int main(){
     // 6 cycles required
     // after each cycle increase simulated zone (early sims only affect core)
     for (int cycle=1; cycle<=6; cycle++ ){
-        for (int x=7-cycle; x<15+cycle; x++){
-            for (int y=7-cycle; y<15+cycle; y++){
-                for (int z=7-cycle; z<8+cycle; z++){
+        for (int x=buffer-cycle; x<x_max+cycle; x++){
+            for (int y=buffer-cycle; y<y_max+cycle; y++){
+                for (int z=buffer-cycle; z<z_max+cycle; z++){
 
                     // number of active neighbours
                     int num_active = active_neighbours(p_dim, x, y, z);
@@ -63,7 +74,7 @@ int main(){
         p_dim = p_dim_copy;
     }
 
-    std::cout << "Total active cubes: " << total_active(p_dim,22,22,15) << std::endl;
+    std::cout << "Total active cubes: " << total_active(p_dim,x_tot,y_tot,z_tot) << std::endl;
 
     return 0;
 }
