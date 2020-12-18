@@ -17,7 +17,7 @@ int main(){
     // read input into vector of strings.
     std::vector<std::string> input = read_input("input", "");
 
-    long long int sum = 0;
+    long long int sum = 0ULL;
 
     for (std::string line : input){
         sum += do_math(line);
@@ -28,7 +28,7 @@ int main(){
     return 0;
 }
 
-// takes a string containing a maths eqn and evaluates from left to right 
+// takes a string containing a maths eqn and evaluates it with +'s before *'s 
 long long int do_math(std::string line){
 
     // if string contains parentheses, resolve before calculating
@@ -65,17 +65,22 @@ long long int do_math(std::string line){
     }
 
     // calculate
-    long long int answer = values[0];
+    // first perfom all additions, replacing some vector elements with 1
+    // 1 * 2 + 3 * 4 -> 1 * 5 * 1 * 4
     for (int i=0; i<operators.size(); i++){
         if ( operators[i] == "+" ){
-            answer += values[i+1];
-        }
-        else {
-            answer *= values[i+1];
+            values[i+1] = values[i] + values [i+1];
+            values[i] = 1ULL;
         }
     }
 
-    return answer;
+    long long int sum = 1ULL;
+    // then multiply out the full line
+    for (long long int num : values){
+        sum *= num;
+    }
+
+    return sum;
 }
 
 std::string expand_brackets(std::string &line){
