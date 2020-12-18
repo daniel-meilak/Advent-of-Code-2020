@@ -2,7 +2,7 @@
 
 # script for making new day folder and including files
 
-mkdir $1
+mkdir day_${1}
 
 echo "#include<iostream>
 #include<vector>
@@ -17,7 +17,7 @@ int main(){
     std::vector<std::string> input = read_input(\"input\", \"\");
 
     return 0;
-}" >> $1/${1}.cpp
+}" >> day_${1}/day_${1}.cpp
 
 echo "#include<iostream>
 #include<vector>
@@ -32,4 +32,7 @@ int main(){
     //std::vector<std::string> input = read_input(\"input\", \"\");
 
     return 0;
-}" >> $1/test.cpp
+}" >> ${1}/test.cpp
+
+echo "## Day ${1}" >> day_${1}/README.md
+
