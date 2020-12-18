@@ -86,5 +86,11 @@
         "!typescriptreact",
         "!yaml",
         "!yml"
+    ],
+    "cSpell.ignoreWords": [
+        "lookbehinds",
+        "lookforwards",
+        "submatches",
+        "substr"
     ]
 }
