@@ -1,0 +1,3 @@
+## Day 5
+
+At the end of the day I ended up with a short and sweet little bit of code that does exactly what I want, exactly how I wanted. So I should be pretty happy right? Well unfortunately it seems like I really ought to have looked up what binary space partitioning is. What a cool method of sorting seats and the solution you can use by replacing 'FL' with 1 and 'BR' with 0 is so beautiful. I finished coding this question up late and so I didn't really feel like redoing the solution however other model solution on the AoC reddit were so much nicer!
