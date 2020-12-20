@@ -32,7 +32,7 @@ int main(){
     //std::vector<std::string> input = read_input(\"input\", \"\");
 
     return 0;
-}" >> ${1}/test.cpp
+}" >> day_${1}/test.cpp
 
 echo "## Day ${1}" >> day_${1}/README.md
 
