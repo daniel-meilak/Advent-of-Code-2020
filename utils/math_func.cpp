@@ -1,4 +1,8 @@
 #include<vector>
+#include<iostream>
+#include<sstream>
+#include<list>
+#include<stack>
 
 // modular multiplicative inverse: (int) x such that
 // ax = 1 (mod m) [or for all k (+/- integers) ax = 1 + km]
@@ -40,3 +44,55 @@ template <typename T> T  chinese_remainder( std::vector<T> n, std::vector<T> a )
 
     return sum % prod;
 }
+
+// Shunting-yard algorithm
+// Takes an infix expression and converts it to reverse polish notation
+// operators is string of possible operators in precedence order such as "-+/*^";
+std::string shunting_yard( std::vector<std::string> &infix, const std::string operators ){
+
+    std::stringstream output;
+    std::stack<int> stack;
+
+    for ( std::string token : infix){
+
+        char c = token[0];
+        size_t idx = operators.find(c);
+
+        // check for operator
+        if (idx != std::string::npos){
+            while (!stack.empty()){
+                // precedence
+                int prec_2 = stack.top()/2;
+                int prec_1 = idx/2;
+                if (prec_2 > prec_1 || (prec_2 == prec_1 && c != '^')){
+                    output << operators[stack.top()] << ' ';
+                    stack.pop();
+                }
+                else break;
+            }
+            stack.push(idx);
+        }
+        else if (c == '('){
+            stack.push(-2); // -2 stands for "("
+        }
+        else if (c == ')'){
+            // until '(' on stack, pop operators.
+            while (stack.top() != -2){
+                output << operators[stack.top()] << ' ';
+                stack.pop();
+            }
+            stack.pop();
+        }
+        else {
+            output << token << ' ';
+        }
+    }
+
+    while (!stack.empty()){
+        output << operators[stack.top()] << ' ';
+        stack.pop();
+    }
+
+    return output.str();
+}
+

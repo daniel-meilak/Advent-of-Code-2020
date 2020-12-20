@@ -1,0 +1,9 @@
+## Day 19
+
+Wow day 19 was really hard. First, creating the complete rule took a lot of thinking, especially since I constructed it using various different containers. Initially my first thought was to try to apply something I should have used in day 18, reverse polish notation. I thought that by processing the complete rule into postfix notation, I could compare the messages character by character to the total rule however after going through all the trouble of implementing a shunting yard algorithm I realised that the result does not compute the answer simply from  left to right. 
+
+After going through the subreddit, I realised that not all my effort was in vain as my initial program for finding the overall rule would still be useful with minor adjustments. I did not occur to me that I could create a working regex for the total rule that I would easily be able to compare for all input messages. Once I went over enough information explaining how to do this, I only had to make small adjustments and add a short section to the code to make it work.
+
+Part two is supposed to be where I spent most of my time scratching my head, I imagine, however after spending so much time on the first part I decided to let reddit and youtube explain the rest. Turns out that was probably the right thing to do as with the tools available to me currently this problem would have been another massive undertaking. 
+
+To solve part two I added two special cases for the two replaced rules. One can be parsed as a regex quite easily (using the + operator) while the other I naively thought could also be done using the '+' operator (or specifically two of them) however so far that doesn't seem to be the case. Instead I ended up hard coding several possibilities split by '|' or 'or' statements. 

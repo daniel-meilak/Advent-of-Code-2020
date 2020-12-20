@@ -91,6 +91,7 @@
         "lookbehinds",
         "lookforwards",
         "submatches",
-        "substr"
+        "substr",
+        "youtube"
     ]
 }
