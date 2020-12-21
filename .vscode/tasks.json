@@ -6,7 +6,8 @@
 			"label": "G++ Build",
 			"command": "/usr/bin/g++",
 			"args": [
-                "-g",
+				"-g",
+				"-std=c++17",
 				"${file}",
 				"${workspaceFolder}/utils/utils.cpp",
                 "-o",
