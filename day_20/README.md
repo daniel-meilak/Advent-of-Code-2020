@@ -1,1 +1,3 @@
 ## Day 20
+
+How can something so simple sounding turn out to be so devious? I've implemented function for rotating and flipping matrices in both directions. This was probably a terrible idea as I'm sure there are plenty of beautiful library functions to do this for me. I'm relatively happy with the method I devised for creating the full picture from a random starting piece; by creating a row/column out of the starting piece and then working on the columns/rows off of the finished line.
