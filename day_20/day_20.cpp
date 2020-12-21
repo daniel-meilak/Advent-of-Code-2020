@@ -2,14 +2,16 @@
 #include<vector>
 #include<string>
 #include<algorithm>
+#include<cmath>
 #include<cstdlib>
-#include<list>
+#include<regex>
 #include<unordered_map>
 #include"../utils/utils.h"
 
 // forward function declarations
-std::list<int> find_row(int id, std::unordered_map<int,std::vector<std::string>> &camera_array );
-void find_neighbours(std::string border, std::list<int> &row, std::unordered_map<int,std::vector<std::string>> &camera_array, std::string side);
+std::vector<int> find_line(int id, std::unordered_map<int,std::vector<std::string>> &camera_array, std::string row_col );
+void find_monster(std::vector<std::string> &picture);
+void find_neighbours(std::string border, std::vector<int> &row, std::unordered_map<int,std::vector<std::string>> &camera_array, std::string side);
 std::string check_piece( std::string &border, std::vector<std::string> &piece, std::string side);
 void rotate( std::vector<std::string> &matrix, std::string direction );
 void flip( std::vector<std::string> &matrix );
@@ -47,57 +49,157 @@ int main(){
     camera_array[index] = piece;
 
     // take the first piece in the puzzle and find the row it is in
-    std::list<int> first_row = find_row(camera_array.begin()->first, camera_array);
+    std::vector<int> first_row = find_line(camera_array.begin()->first, camera_array, "row");
 
-    std::list<std::list<int>> picture;
+    std::vector<std::vector<int>> picture;
 
     // from the first row, we find the colums connecting to each piece
     for (int id : first_row){
-
-        // rotate each piece
-        rotate(camera_array[id], "left");
-        picture.push_back(find_row(id, camera_array));
-        rotate(camera_array[id], "right");
+        picture.push_back(find_line(id, camera_array, "col"));
     }
 
     // find answer by multiplying ids of corners
     long long int sum = 1ULL*picture.front().front()*picture.front().back()*picture.back().front()*picture.back().back();
 
-    std::cout << "Answer: " << sum << std::endl;
+    std::cout << "Answer (part 1): " << sum << std::endl;
 
-    
+    // remove all borders
+    for (auto & [key, value] : camera_array){
+
+        // remove top and bottom
+        value.erase(value.begin());
+        value.erase(value.end());
+
+        // remove sides
+        for (int i=0; i<value.size(); i++){
+            value[i] = value[i].substr(1, value[i].size()-2);
+        }
+    }
+
+    // dimension of individual puzzle piece
+    int size = camera_array.begin()->second.size();
+
+    // height and width of puzzle
+    int total_size = size*std::sqrt(camera_array.size());
+
+    // vector<string> containing finished picture
+    std::vector<std::string> finished_picture(total_size);
+
+    for (int i=0; i<picture.size(); i++){
+        for (int j=0; j<picture[0].size(); j++){
+            for (int k=0+j*size; k<size+j*size; k++){
+                finished_picture[k] += camera_array[picture[i][j]][k % size];
+            }
+        }
+    }
+
+    // find the monster after rotating the image
+    rotate(finished_picture, "right");
+    find_monster(finished_picture);
+
+    // count number of leftover #
+    int tally = 0;
+    for (std::string line : finished_picture){
+        tally += std::count(line.begin(), line.end(), '#'); 
+        std::cout << line << std::endl;
+    }
+
+    std::cout << "Answer (part 2): " << tally << std::endl;    
 
     return 0;
 }
 
-// creates list containing all connecting puzzle pieces to left and right of input piece
-std::list<int> find_row(int id, std::unordered_map<int,std::vector<std::string>> &camera_array ){
+void find_monster(std::vector<std::string> &picture){
+
+    // monster body positions
+    std::vector<int> monster_top = {18};
+    std::vector<int> monster_mid = {0,5,6,11,12,17,18,19};
+    std::vector<int> monster_bot = {1,4,7,10,13,16};
+
+    // search for mid in 2nd to 2nd last rows
+    for (int i=1; i<picture.size()-1; i++){
+        // search along the width of the picture
+        for (int j=0; j<picture[0].size()-20; j++){
+
+            bool invalid = false;
+
+            // cheack each '#' location
+            for (int val : monster_mid){
+                if ( picture[i][val+j] != '#' ){
+                    invalid = true;
+                    break;
+                }
+            }
+            if (!invalid){
+                for (int val : monster_top){
+                    if ( picture[i-1][val+j] != '#' ){
+                        invalid = true;
+                        break;
+                    }
+                }
+            }
+            if (!invalid){
+                for (int val : monster_bot){
+                    if ( picture[i+1][val+j] != '#' ){
+                        invalid = true;
+                        break;
+                    }
+                }
+            }
+            // if !invalid, top bottom and mid are matched!
+            if (!invalid){
+                // change all the monster '#' to 'O'
+                for (int val : monster_bot){
+                    picture[i+1][val+j] = 'O';
+                }
+                for (int val : monster_mid){
+                    picture[i][val+j] = 'O';
+                }
+                for (int val : monster_top){
+                    picture[i-1][val+j] = 'O';
+                }
+            }
+        }
+    }
+}
+
+// creates vector containing all connecting puzzle pieces to left and right of input piece
+std::vector<int> find_line(int id, std::unordered_map<int,std::vector<std::string>> &camera_array, std::string row_col ){
 
     // get piece 
     std::vector<std::string> main_piece = camera_array[id];
 
-    // remove from map
-    //camera_array.erase(id);
-
-    // vectors containing left and right borders
-    std::string l_border, r_border;
-    for (int i=0; i<main_piece.size(); i++){
-        l_border.push_back(main_piece[i].front());
-        r_border.push_back(main_piece[i].back());
+    // create vectors for borders
+    std::string l_border, r_border, t_border, b_border;
+    if (row_col == "row"){
+        for (int i=0; i<main_piece.size(); i++){
+            l_border.push_back(main_piece[i].front());
+            r_border.push_back(main_piece[i].back());
+        }
+    }
+    else {
+        t_border = main_piece.front();
+        b_border = main_piece.back();
     }
 
-    // list of row
-    std::list<int> row = {id};
+    // vector of row
+    std::vector<int> row = {id};
     
-    // find left and right neighbours
-    find_neighbours(l_border, row, camera_array, "left");
-    find_neighbours(r_border, row, camera_array, "right");
+    // find neighbours
+    if (row_col == "row"){
+        find_neighbours(l_border, row, camera_array, "left");
+        find_neighbours(r_border, row, camera_array, "right");
+    }
+    else {
+        find_neighbours(t_border, row, camera_array, "top");
+        find_neighbours(b_border, row, camera_array, "bottom");
+    }
 
     // we have completed the row
     return row;
 }
 
-void find_neighbours(std::string border, std::list<int> &row, std::unordered_map<int,std::vector<std::string>> &camera_array, std::string side){
+void find_neighbours(std::string border, std::vector<int> &row, std::unordered_map<int,std::vector<std::string>> &camera_array, std::string side){
 
     bool at_edge = false;
     std::string old_border;
@@ -120,8 +222,8 @@ void find_neighbours(std::string border, std::list<int> &row, std::unordered_map
             if (next_border != ""){
                 
                 // add the piece to the row
-                if (side == "left"){
-                    row.push_front(next_id);
+                if ((side == "left") || (side == "top")){
+                    row.insert(row.begin(),next_id);
                 }
                 else {
                     row.push_back(next_id);
@@ -164,69 +266,110 @@ std::string check_piece( std::string &border, std::vector<std::string> &piece, s
 
     // check sides
     if ( top == border ){
-        if ( side == left ){
+        if ( side == "left" ){
             rotate(piece, "right");
         }
-        else {
+        else if (side == "right"){
+            flip(piece);
             rotate(piece, "left");
         }
+        else if (side == "top"){
+            flip_vert(piece);
+        }
+        // if bottom do nothing
         match = bottom;
     }
     else if ( top_f == border ){
         flip(piece);
-        if ( side == left ){
+        if ( side == "left" ){
             rotate(piece, "right");
         }
-        else {
+        else if ( side == "right"){
+            flip(piece);
             rotate(piece, "left");
+        }
+        else if (side == "top"){
+            flip_vert(piece);
         }
         match = bottom_f;
     }
     else if ( bottom == border ){
-        if ( side == left ){
+        if ( side == "left" ){
+            flip(piece);
             rotate(piece, "left");
         }
-        else {
+        else if (side == "right"){
             rotate(piece, "right");
+        }
+        else if (side == "bottom"){
+            flip_vert(piece);
         }
         match = top;
     }
     else if ( bottom_f == border ){
         flip(piece);
-        if ( side == left ){
+        if ( side == "left" ){
+            flip(piece);
             rotate(piece, "left");
         }
-        else {
+        else if ( side == "right"){
             rotate(piece, "right");
+        }
+        else if (side == "bottom"){
+            flip_vert(piece);
         }
         match = top_f;
     }
     else if ( right == border ){
-        if ( side == right ){
+        if ( side == "right"){
+            flip(piece);
+        }
+        else if (side == "bottom"){
             rotate(piece, "left");
+        }
+        else if (side == "top"){
+            flip(piece);
             rotate(piece, "left");
         }
         match = left;
     }
     else if ( right_f == border ){
         flip_vert(piece);
-        if ( side == right ){
+        if ( side == "right"){
+            flip(piece);
+        }
+        else if (side == "bottom"){
             rotate(piece, "left");
+        }
+        else if (side == "top"){
+            flip(piece);
             rotate(piece, "left");
         }
         match = left_f;
     }
     else if ( left == border ){
-        if ( side == left ){
+        if ( side == "left"){
+            flip(piece);
+        }
+        else if (side == "bottom"){
+            flip(piece);
             rotate(piece, "left");
+        }
+        else if (side == "top"){
             rotate(piece, "left");
         }
         match = right;
     }
     else if ( left_f == border ){
         flip_vert(piece);
-        if ( side == left ){
+        if ( side == "left"){
+            flip(piece);
+        }
+        else if (side == "bottom"){
+            flip(piece);
             rotate(piece, "left");
+        }
+        else if (side == "top"){
             rotate(piece, "left");
         }
         match = right_f;
