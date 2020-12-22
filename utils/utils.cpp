@@ -145,3 +145,23 @@ std::vector<std::string> split(std::string str, std::string delimiter){
  
    return output; 
 }
+
+// takes input and splits into multiple vectors according to delimiter
+std::vector<std::vector<std::string>> split_input(std::vector<std::string> input, std::string delimiter){
+
+   std::vector<std::vector<std::string>> output;
+   std::vector<std::string> part;
+
+   for (std::string line : input){
+      if ( line != delimiter){
+         part.push_back(line);
+      }
+      else {
+         output.push_back(part);
+         part.clear();
+      }
+   }
+   output.push_back(part);
+
+   return output;
+} 
