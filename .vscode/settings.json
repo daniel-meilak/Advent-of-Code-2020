@@ -51,7 +51,8 @@
         "chrono": "cpp",
         "cstring": "cpp",
         "ratio": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "forward_list": "cpp"
     },
     "cSpell.language": "en-GB",
     "cSpell.enableFiletypes": [
