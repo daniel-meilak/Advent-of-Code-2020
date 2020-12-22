@@ -21,13 +21,13 @@ int main(){
         player2.push_back(std::stoi(input[1][i]));
     }
 
+    // set up flag for finding a winner and a history list
     std::string winner = "";
     std::vector<std::pair<std::string, std::string>> history;
 
+    // play recursive combat until we have a winner
     while ( winner == "" ){
-
         winner = recursive_combat(player1, player2, history);
-        
     }
 
     // count winners points
@@ -47,7 +47,7 @@ int main(){
         }
     }
 
-    std::cout << "Answer (part 1): " << score << std::endl;
+    std::cout << "Winner is " << winner << " with " << score << " points!" << std::endl;
 
     return 0;
 }
@@ -57,13 +57,14 @@ std::string recursive_combat( std::list<int> &player1, std::list<int> &player2, 
     std::string winner = "";
 
     // check if this game has already been played
-    std::pair<std::string,std::string> game, game_opp;
+    // if it has, end the game and declare player 1 the winner
+    std::pair<std::string,std::string> game;
     game = {list_to_str(player1), list_to_str(player2)};
-    //game_opp = {list_to_str(player2), list_to_str(player1)};
-    if ( (std::find(history.begin(), history.end(), game) != history.end()) ){//|| (std::find(history.begin(), history.end(), game_opp) != history.end()) ){
+    if ( (std::find(history.begin(), history.end(), game) != history.end()) ){
         winner = "player 1";
         return winner;
     }
+    // if it hasn't been played, add it to the history
     else {
         history.push_back(game);
     }
@@ -85,6 +86,7 @@ std::string recursive_combat( std::list<int> &player1, std::list<int> &player2, 
         std::copy_n(player2.begin(), p2_top, p2_copy.begin());
 
         // play a sub game of the copied, reduced decks.
+        // history must be specific to sub game
         std::string sub_winner = "";
         std::vector<std::pair<std::string, std::string>> sub_history;
         while ( sub_winner == "" ){
@@ -94,7 +96,7 @@ std::string recursive_combat( std::list<int> &player1, std::list<int> &player2, 
         // player 1 wins sub game
         if ( sub_winner == "player 1"){
             
-            // winners puts card at the bottom
+            // winner puts card at the bottom
             player1.push_back(p1_top);
             // and the losers card underneath
             player1.push_back(p2_top);
@@ -113,7 +115,7 @@ std::string recursive_combat( std::list<int> &player1, std::list<int> &player2, 
         // player 1 wins
         if (p1_top > p2_top){
             
-            // winners puts card at the bottom
+            // winner puts card at the bottom
             player1.push_back(p1_top);
             // and the losers card underneath
             player1.push_back(p2_top);
@@ -139,6 +141,7 @@ std::string recursive_combat( std::list<int> &player1, std::list<int> &player2, 
     return winner;
 }
 
+// convert deck into string representation (concatenate all numbers) to store in history
 std::string list_to_str(std::list<int> cards){
 
     std::string output = "";
