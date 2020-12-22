@@ -2,6 +2,7 @@
 #include<iostream>
 #include<vector>
 #include<fstream>
+#include<sstream>
 #include<string>
 #include<cstdlib>
 #include<cmath>
@@ -94,7 +95,7 @@ std::vector<double> input_to_double(std::vector<std::string> input){
    return output;
 }
 
-// convert binary to decimal
+// convert binary (represented as normal int) to decimal
 int binary_to_decimal( int binary ){
 
    int decimal = 0;
@@ -112,7 +113,7 @@ int binary_to_decimal( int binary ){
    return decimal;
 }
 
-
+// convert deicmal to binary (as an int)
 int decimal_to_binary( int decimal ){
 
    int binary = 0;
@@ -126,4 +127,21 @@ int decimal_to_binary( int decimal ){
    }
 
    return binary;
+}
+
+// split delimiter spaced elements in string into vector of strings
+std::vector<std::string> split(std::string str, std::string delimiter){ 
+
+   size_t pos = 0;
+   std::string token;
+   std::vector<std::string> output;
+
+   while ((pos = str.find(delimiter)) != std::string::npos){
+      token = str.substr(0, pos);
+      output.push_back(token);
+      str.erase(0, pos + delimiter.length());
+   }
+   output.push_back(str);
+ 
+   return output; 
 }
