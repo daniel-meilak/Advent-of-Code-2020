@@ -29,9 +29,7 @@ int main(){
 
         // add all ingredients to list
         for (std::string ingredient : ingredients){
-            //if ( std::find(ingredients_list.begin(), ingredients_list.end(), ingredient) == ingredients_list.end() ){
             ingredients_list.push_back(ingredient);
-            //}
         }
 
         // store allergens in line
@@ -43,17 +41,23 @@ int main(){
     }
 
     // loop through allergens and reduce ingredients
-    int num_not_allergen = 0;
+    // for each allergen
     for (auto & [allergen, foods] : allergen_foods){
+        // for each food linked to allergen
         for ( int i=0; i<foods.size(); i++ ){
+            // for each ingredient in food
             for ( int j=0; j<foods[i].size(); j++){
                 std::string ingredient = foods[i][j];
+                // check each food for current ingredient
                 for (int k=0; k<foods.size(); k++){
+                    // if ingredient is not found in each food, it cannot be the allergen
                     if ( std::find(foods[k].begin(), foods[k].end(), ingredient ) == foods[k].end() ){
+                        // remove ingredient from all foods linked to allergen
                         for ( auto & food : foods ){
                             food.erase(std::remove(food.begin(), food.end(), ingredient), food.end());
-                            num_not_allergen++;
                         }
+                        // keep track of position afer removing an element
+                        // and shifting following elements back
                         j--;
                         break;
                     }
@@ -62,6 +66,7 @@ int main(){
         }
     }
 
+    // old map is now redundant as fields are repeated. Create 
     // new map containing allergens and all possible foods
     std::unordered_map<std::string, std::vector<std::string>> reduced_allergens;
     for (const auto & [allergen, foods] : allergen_foods){
@@ -113,8 +118,6 @@ int main(){
         std::cout << allergen_translation[i].second << ",";
     }
     std::cout << allergen_translation.back().second << std::endl;
-
-    // remember to remove leading comma
 
     return 0;
 }
