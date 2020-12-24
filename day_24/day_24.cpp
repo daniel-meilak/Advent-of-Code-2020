@@ -80,12 +80,14 @@ int main(){
     std::vector<bool> grid_copy = grid;
 
     // loop through and flip tiles
+    int grid_min = width+1;
+    int grid_max = grid.size()-(width+1);
     for (int i=0; i<100; i++){
 
         // must skip top and bottom edges
         // sides are calc incorrectly however they should not matter
         // as flipped tiles shouldn't reach edge of system
-        for (int j=width+1; j<grid.size()-(width+1); j++){
+        for (int j=grid_min; j<grid_max; j++){
 
             // count neighbouring black tiles
             int black_tiles = neighbours(j, width, grid);
