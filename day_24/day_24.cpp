@@ -49,21 +49,21 @@ int main(){
 
             // check if current row is even or odd
             if ( (movements[i]/width) % 2 == 0 ){
-            if      ( match == "ne" ){ movements[i] += -width  ; }
-            else if ( match == "nw" ){ movements[i] += -width-1; }
-            else if ( match == "sw" ){ movements[i] +=  width-1; }
-            else if ( match == "se" ){ movements[i] +=  width  ; }
-            else if ( match == "w"  ){ movements[i] += -1      ; }
-            else if ( match == "e"  ){ movements[i] +=  1      ; }
+                if      ( match == "ne" ){ movements[i] += -width  ; }
+                else if ( match == "nw" ){ movements[i] += -width-1; }
+                else if ( match == "sw" ){ movements[i] +=  width-1; }
+                else if ( match == "se" ){ movements[i] +=  width  ; }
+                else if ( match == "w"  ){ movements[i] += -1      ; }
+                else if ( match == "e"  ){ movements[i] +=  1      ; }
             }
             // if on odd row
             else {
-            if      ( match == "ne" ){ movements[i] += -width+1; }
-            else if ( match == "nw" ){ movements[i] += -width  ; }
-            else if ( match == "sw" ){ movements[i] +=  width  ; }
-            else if ( match == "se" ){ movements[i] +=  width+1; }
-            else if ( match == "w"  ){ movements[i] += -1      ; }
-            else if ( match == "e"  ){ movements[i] +=  1      ; }
+                if      ( match == "ne" ){ movements[i] += -width+1; }
+                else if ( match == "nw" ){ movements[i] += -width  ; }
+                else if ( match == "sw" ){ movements[i] +=  width  ; }
+                else if ( match == "se" ){ movements[i] +=  width+1; }
+                else if ( match == "w"  ){ movements[i] += -1      ; }
+                else if ( match == "e"  ){ movements[i] +=  1      ; }
             }
 
             // move to next direction
