@@ -59,6 +59,61 @@ std::vector<std::string> read_input(std::string file_name, std::string separator
    return input;
 }
 
+// Function to read input file "file_name" containing lines split by separator
+// and output a vector of vector of strings called "input"
+std::vector<std::vector<std::string>> read_input_2D(std::string file_name, std::string separator){
+
+   // output vector of strings
+   std::vector<std::vector<std::string>> input;
+
+   // read input into "line"
+   std::string line;
+   std::ifstream input_file (file_name);
+
+   // check that file exists
+   if ( !(input_file.is_open()) ){
+      std::cout << "Could not open file " << file_name << std::endl;
+      std::exit(EXIT_FAILURE);
+   }
+
+   int line_length;
+   std::string temp_val;
+   std::vector<std::string> temp_vector;
+   while ( getline(input_file, line) ){
+
+      line_length = line.size();
+
+      if ( separator == "" ){
+         std::cout << "Use read_input instead of read_input_2D" << std::endl;
+         std::exit(EXIT_FAILURE);
+      }
+      else {
+         // loop through contents of line
+         for ( int read_pos=0; read_pos<line_length; read_pos++ ){
+
+            // if next characters != separator, add next char to temp_val
+            if ( line.substr(read_pos, separator.size()) != separator ){
+               temp_val.push_back(line[read_pos]);
+            }
+            // else add the value to temp_vector and skip the separator
+            else {
+               read_pos += separator.size()-1;
+               temp_vector.push_back(temp_val);
+               temp_val.clear();
+            }
+         }
+         // push_back last value
+         input.push_back(temp_vector);
+         temp_vector.clear();
+         temp_val.clear();
+      }
+   }
+
+   input_file.close();
+
+   return input;
+}
+
 // convert vector of strings to vector of ints
 std::vector<int> input_to_int(std::vector<std::string> input){
 
@@ -66,6 +121,21 @@ std::vector<int> input_to_int(std::vector<std::string> input){
 
    for (unsigned int i=0; i<input.size(); i++){
       output.push_back(std::stoi(input[i]));
+   }
+
+   return output;
+}
+
+// convert 2D vector of vector of strings to vector of vector of ints
+std::vector<std::vector<int>> input_to_int_2D(std::vector<std::vector<std::string>> input){
+
+   std::vector<std::vector<int>> output;
+
+   for (unsigned int i=0; i<input.size(); i++){
+      for (unsigned int j=0; j<input[i].size(); j++){
+         
+         output[i].push_back(std::stoi(input[i][j]));
+      }
    }
 
    return output;
