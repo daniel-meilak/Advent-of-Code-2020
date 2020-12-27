@@ -35,9 +35,9 @@ template <typename T> T  chinese_remainder( std::vector<T> n, std::vector<T> a )
 
     T p, prod = 1, sum = 0;
 
-    for ( int i=0; i<n.size(); i++ ){ prod *= n[i] ;}
+    for (unsigned  int i=0; i<n.size(); i++ ){ prod *= n[i] ;}
 
-    for ( int i=0; i<n.size(); i++ ){
+    for (unsigned  int i=0; i<n.size(); i++ ){
         p = prod/n[i];
         sum += a[i]*mul_inv(p,n[i])*p;
     }

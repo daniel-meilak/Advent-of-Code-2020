@@ -64,7 +64,7 @@ std::vector<int> input_to_int(std::vector<std::string> input){
 
    std::vector<int> output;
 
-   for (int i=0; i<input.size(); i++){
+   for (unsigned int i=0; i<input.size(); i++){
       output.push_back(std::stoi(input[i]));
    }
 
@@ -76,7 +76,7 @@ std::vector<long long int> input_to_llint(std::vector<std::string> input){
 
    std::vector<long long int> output;
 
-   for (int i=0; i<input.size(); i++){
+   for (unsigned int i=0; i<input.size(); i++){
       output.push_back(std::stoll(input[i]));
    }
 
@@ -88,7 +88,7 @@ std::vector<double> input_to_double(std::vector<std::string> input){
 
    std::vector<double> output;
 
-   for (int i=0; i<input.size(); i++){
+   for (unsigned int i=0; i<input.size(); i++){
       output.push_back(std::stod(input[i]));
    }
 
@@ -117,7 +117,7 @@ int binary_to_decimal( int binary ){
 int decimal_to_binary( int decimal ){
 
    int binary = 0;
-   int remainder, i = 1, step = 1;
+   int remainder, i = 1;
 
    while ( decimal != 0){
       remainder = decimal%2;

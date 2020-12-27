@@ -89,6 +89,7 @@
         "!yml"
     ],
     "cSpell.ignoreWords": [
+        "deque",
         "lookbehinds",
         "lookforwards",
         "submatches",
