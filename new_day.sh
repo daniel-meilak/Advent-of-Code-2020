@@ -9,7 +9,7 @@ echo "#include<iostream>
 #include<string>
 #include<algorithm>
 #include<cstdlib>
-#include\"../utils/utils.h\"
+#include\"../Utils/utils.h\"
 
 int main(){
 
@@ -24,7 +24,7 @@ echo "#include<iostream>
 #include<string>
 #include<algorithm>
 #include<cstdlib>
-#include\"../utils/utils.h\"
+#include\"../Utils/utils.h\"
 
 int main(){
 

@@ -4,7 +4,7 @@
 #include<algorithm>
 #include<cstdlib>
 #include<regex>
-#include"../../utils/utils.h"
+#include"../../Utils/utils.h"
 
 // forward function declarations
 int neighbours(int tile, int width, std::vector<bool> &grid);

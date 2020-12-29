@@ -8,8 +8,8 @@
 #include<regex> 
 #include<unordered_map>
 #include<map>
-#include"../../utils/utils.h"
-#include"../../utils/math_func.cpp"
+#include"../../Utils/utils.h"
+#include"../../Utils/math_func.cpp"
 
 std::vector<std::string> process_substring(std::string value);
 

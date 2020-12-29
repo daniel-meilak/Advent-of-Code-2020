@@ -4,7 +4,7 @@
 #include<algorithm>
 #include<cstdlib>
 #include<list>
-#include"../../utils/utils.h"
+#include"../../Utils/utils.h"
 
 std::string recursive_combat( std::list<int> &player1, std::list<int> &player2, std::vector<std::pair<std::string, std::string>> &history);
 std::string list_to_str(std::list<int> cards);
