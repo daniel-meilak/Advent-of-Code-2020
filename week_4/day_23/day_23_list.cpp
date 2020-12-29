@@ -3,7 +3,7 @@
 #include<string>
 #include<algorithm>
 #include<cstdlib>
-#include"../../utils/utils.h"
+#include"../../Utils/utils.h"
 
 void copy_range_cyclic(std::list<int> &input, std::list<int>::iterator it, std::list<int> &output, int n);
 void advance_cyclic(std::list<int> &input, std::list<int>::iterator &it, int n);

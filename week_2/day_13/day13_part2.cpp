@@ -4,8 +4,8 @@
 #include<algorithm>
 #include<cstdlib>
 #include<utility>
-#include"../../utils/utils.h"
-#include"../../utils/math_func.cpp"
+#include"../../Utils/utils.h"
+#include"../../Utils/math_func.cpp"
 
 int main(){
 

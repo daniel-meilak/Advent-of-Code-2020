@@ -10,7 +10,7 @@
 				"-Wall",
 				"-std=c++17",
 				"${file}",
-				"${workspaceFolder}/utils/utils.cpp",
+				"${workspaceFolder}/Utils/utils.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}.out"
             ],

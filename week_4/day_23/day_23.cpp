@@ -3,7 +3,7 @@
 #include<string>
 #include<algorithm>
 #include<cstdlib>
-#include"../../utils/utils.h"
+#include"../../Utils/utils.h"
 
 void copy_loop(std::vector<int> &input, std::vector<int>::iterator first, int n, std::vector<int> &result);
 void erase_loop(std::vector<int> &input, std::vector<int>::iterator first, int n);
