@@ -3,7 +3,7 @@
 #include<string>
 #include"../../Utils/utils.h"
 
-void tree_count(int right, int down, std::vector<std::string>& input);
+long tree_count(int right, int down, std::vector<std::string>& input);
 
 int main(){
 
@@ -11,11 +11,11 @@ int main(){
     std::vector<std::string> input = read_input("input", "");
 
     // check different slopes
-    tree_count(1,1,input);
-    tree_count(3,1,input);
-    tree_count(5,1,input);
-    tree_count(7,1,input);
-    tree_count(1,2,input);    
+    long part1 = tree_count(3,1,input);
+    long part2 = tree_count(1,1,input)*part1*tree_count(5,1,input)*tree_count(7,1,input)*tree_count(1,2,input);       
+
+    std::cout << "Answer (part 1): " << part1 << std::endl;
+    std::cout << "Answer (part 2): " << part2 << std::endl;
 
     return 0;
 }
@@ -23,28 +23,23 @@ int main(){
 
 // Goes through horizontal periodic input map, moving down and right counting 
 // number of trees "#" encountered in the map
-void tree_count(int right, int down, std::vector<std::string>& input){
+long tree_count(int right, int down, std::vector<std::string>& input){
 
     // x in horizontal position, y is vertical. (x,y)=(0,0) is at top left
     int x=0;
     int max_y = input[0].size();
 
     // number of trees encountered
-    int num_trees=0;
+    long num_trees=0;
+    size_t size = input.size();
 
-    for (unsigned int y=down; y<input.size(); y+=down){
+    for (size_t y=down; y<size; y+=down){
 
         // move three steps to the right, periodic system
         x = (x+right) % max_y;
 
-        if ( input[y][x] == '#' ){
-            num_trees++;
-        }
-
+        if (input[y][x] == '#'){ num_trees++; }
     }
 
-    std::cout << "Right " << right << " Down " << down << " : " << num_trees << std::endl;
-
-    return;
-
+    return num_trees;
 }
