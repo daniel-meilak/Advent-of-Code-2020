@@ -1,70 +1,45 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include<algorithm>
 #include"../../Utils/utils.h"
 
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input", "");
+    std::vector<std::string> delimiters = {"-"," ",":"};
+    std::vector<std::vector<std::string>> input = read_input_2D("input", delimiters);
 
-    int pos, min, max, matches;
-    int valid = 0;
+    int min, max, matches, part1=0, part2=0;
     char letter;
     std::string line, password;
-    std::string min_string, max_string;
-
 
     // loop through each input
-    for (unsigned int i=0; i<input.size(); i++){
+    for (const std::vector<std::string> line : input){
 
-        line = input[i];
+        // get min and max
+        min = std::stoi(line[0]);
+        max = std::stoi(line[1]);
+      
+        // get letter requirement
+        letter = line[2][0];
 
-        // work through the line
-        pos=0;
-
-        // extract min number
-        while ( line[pos] != '-' ){
-            min_string.push_back(line[pos]);
-            pos++;
-        }
-        min = std::stoi(min_string);
-        pos++;
-
-        // extract max number
-        while ( line[pos] != ' ' ){
-            max_string.push_back(line[pos]);
-            pos++;
-        }
-        max = std::stoi(max_string);
-        pos++;
-
-        // extract letter requirement
-        letter = line[pos];
-        pos += 3;
-
-        // extract password
-        password = line.substr(pos, line.size()-pos);
+        // get password
+        password = line[3];
 
         // loop through password and check for number of occurences
-        matches = 0;
-        for (unsigned int j=0; j<password.size(); j++){
-            if ( password[j] == letter){
-                matches++;
-            }
-        }
+        matches = std::ranges::count(password,letter);
 
-        // check if number of matches is between min and max;
-        if ( (matches >= min) && (matches <= max) ){
-            valid++;
-        }
+        // part 1: check if number of matches is between min and max;
+        if ((matches >= min) && (matches <= max)){ part1++; }
 
-        // empty variables for next line;
-        min_string.clear();
-        max_string.clear();
+        // part 2: check if positions min and max contain required letter
+        // this if statement is a logical XOR. 
+        if (!(password[min-1]==letter) != !(password[max-1]==letter)){ part2++; }
     }
 
-    std::cout << "Number of valid passwords: " << valid << std::endl;
+    std::cout << "Answer (part 1): " << part1 << std::endl;
+    std::cout << "Answer (part 2): " << part2 << std::endl;
 
     return 0;
 }

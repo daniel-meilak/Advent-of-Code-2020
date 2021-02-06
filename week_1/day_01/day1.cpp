@@ -7,17 +7,27 @@ int main(){
    std::vector<int> input = input_to_int(read_input("input", ""));
 
    // work through input
-   const int size = input.size();
-   for (int i=0; i<size-2; i++){
-      for (int j=i+1; j<size-1; j++){
-         for (int k=j+1; k<size; k++){
+   size_t size = input.size();
 
-            if ( (input[i]+input[j]+input[k]) == 2020 ){
-               std::cout << input[i]*input[j]*input[k] << std::endl;
-            }
+   int part1, part2;
+
+   // i, j and k never overlap so each triplet is only checked once
+   for (size_t i=0; i<size-2; i++){
+      for (size_t j=i+1; j<size-1; j++){
+
+         // part 1
+         if (input[i]+input[j] == 2020){ part1 = input[i]*input[j]; }
+
+         // part 2
+         for (size_t k=j+1; k<size; k++){
+
+            if (input[i]+input[j]+input[k] == 2020){ part2 = input[i]*input[j]*input[k]; }
          }
       }
    }
+
+   std::cout << "Answer (part 1): " << part1 << std::endl;
+   std::cout << "Answer (part 2): " << part2 << std::endl;
 
    return 0;
 
