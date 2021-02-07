@@ -3,6 +3,7 @@
 #include<string>
 #include<algorithm>
 #include<cstdlib>
+#include<ranges>
 #include"../../Utils/utils.h"
 
 int main(){
@@ -14,22 +15,23 @@ int main(){
     input.push_back(0);
 
     // sort plugs
-    std::sort(input.begin(), input.end());
+    std::ranges::sort(input);
 
     // add appliance to input
     input.push_back(input[input.size()-1]+3);
-    
+    size_t size = input.size();
+
     // vector of differences
     std::vector<int> diff;
 
     // find difference between each adaptor and store in diff
-    for (unsigned int i=1; i<input.size(); i++){
+    for (size_t i=1; i<size; i++){
         diff.push_back(input[i]-input[i-1]);
     }
 
     // number of 1 and 3 differences
-    int diff_1 = std::count(diff.begin(), diff.end(), 1);
-    int diff_3 = std::count(diff.begin(), diff.end(), 3);
+    int diff_1 = std::ranges::count(diff,1);
+    int diff_3 = std::ranges::count(diff,3);
 
     // output answer
     std::cout << "Answer (part 1): " << diff_1*diff_3 << std::endl;
@@ -38,18 +40,15 @@ int main(){
     std::vector<int> consecutive;
 
     int count = 1;
+    size_t diff_size = diff.size();
     // find consecutive differences
-    for (unsigned int i=1; i<diff.size(); i++){
+    for (size_t i=1; i<diff_size; i++){
 
         // ignore 3's 
-        if ( diff[i] == 3 ){
-            continue;
-        }
+        if ( diff[i] == 3 ){ continue; }
 
         // count consecutive 1's
-        if ( diff[i] == diff[i-1] ){
-            count++;
-        }
+        if ( diff[i] == diff[i-1] ){ count++; }
         else {
             consecutive.push_back(count);
             count = 1;
@@ -66,15 +65,9 @@ int main(){
 
     for (int num : consecutive){
 
-        if ( num == 4 ){
-            sum *= 7;
-        }
-        else if ( num == 3 ){
-            sum *= 4;
-        }
-        else if ( num == 2 ){
-            sum *= 2;
-        }
+        if      ( num == 4 ){ sum *= 7; }
+        else if ( num == 3 ){ sum *= 4; }
+        else if ( num == 2 ){ sum *= 2; }
     }
 
     std::cout << "Answer (part 2): " << sum << std::endl;

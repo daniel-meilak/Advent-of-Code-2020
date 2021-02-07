@@ -28,8 +28,12 @@ int main(){
     int corrector_pos = 0;
     int old_corrector_pos = 1;
 
-    // for question require list of completed instructions
+    // for part1 require list of completed instructions
     std::vector<bool> completed_instructions(memory.size(), false);
+
+    bool first_repeat = true;
+    
+    int part1, part2;
 
     // run through memory
     bool running = true;
@@ -41,6 +45,10 @@ int main(){
         }
         else {
             // code is looping, try swapping a "jmp" and "nop" instruction
+            if (first_repeat){
+                part1 = accumulator;
+                first_repeat = false;
+            }
 
             // swap old instruction back (only works afer first swap) 
             if ( memory[old_corrector_pos].first == "jmp" ){
@@ -94,11 +102,14 @@ int main(){
             pos_in_memory++;    
         }
         else if (instruction.first == "end"){
-            std::cout << "Reached end of code." << std::endl;
-            std::cout << "Accumulator value: " << accumulator << std::endl;
+            part2 = accumulator;
             break;
         }
     }
+
+    std::cout << "Answer (part 1): " << part1 << std::endl;
+    std::cout << "Answer (part 2): " << part2 << std::endl;
+
 
     return 0;
 }
