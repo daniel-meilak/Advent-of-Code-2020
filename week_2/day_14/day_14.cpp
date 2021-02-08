@@ -8,6 +8,7 @@
 #include<map>
 #include"../../Utils/utils.h"
 
+// forward function declarations
 long int find_address( std::string line );
 long int find_value( std::string line );
 std::vector<long int> apply_mask2( long int &value, std::string mask );
@@ -15,12 +16,21 @@ std::vector<long int> floating_binary( std::string line );
 void apply_mask( long int &value, std::string mask );
 void set_bit( long int &num, int position );
 void clear_bit( long int &num, int position );
+long long mask(const std::vector<std::string> &input, const bool part2);
 
 int main(){
 
     // read input into vector of strings.
     std::vector<std::string> input = read_input("input", "");
 
+    std::cout << "Answer (part 1): " << mask(input,false) << std::endl;
+    std::cout << "Answer (part 2): " << mask(input,true ) << std::endl;
+
+    return 0;
+}
+
+long long mask(const std::vector<std::string> &input, const bool part2){
+    
     // Memory map (cant use 0-size as too large)
     std::map<long int, long int> memory;
 
@@ -28,8 +38,7 @@ int main(){
     std::string mask;
 
     // total to hold answer
-    long int total = 0;
-
+    long long total = 0;
 
     // work through input
     for ( std::string line : input ){
@@ -38,9 +47,8 @@ int main(){
         std::string instruction = line.substr(0,3);  
 
         // if mask, change mask
-        if ( instruction == "mas" ){
-            mask = line.substr(7);
-        }
+        if ( instruction == "mas" ){ mask = line.substr(7); }
+
         // otherwise add to memory
         else {
 
@@ -48,33 +56,31 @@ int main(){
             long int address = find_address(line);
             long int value   = find_value(line);
 
-            
-            // part 1:
-            // // mask value
-            // apply_mask(value, mask);
-            // // insert into memory
-            // memory[address] = value;
 
-            // part 2:
-            // find the floating addresses
-            std::vector<long int> floating_address;
-            floating_address = apply_mask2(address,mask);
+            if (part2){
+                // find the floating addresses
+                std::vector<long int> floating_address = apply_mask2(address,mask);
 
-            // add values to memory map
-            for ( long int index : floating_address ){
-                memory[index] = value;
+                // add values to memory map
+                for ( long int index : floating_address ){
+                    memory[index] = value;
+                }
+            }
+            else {
+                // mask value
+                apply_mask(value, mask);
+                // insert into memory
+                memory[address] = value;
             }
         }
     }
 
     // loop through memory map and add keys (memory values)
-    for ( auto const& entry : memory){
+    for ( auto const &entry : memory){
         total += entry.second;
     }
 
-    std::cout << "Answer: " << total << std::endl;
-
-    return 0;
+    return total;
 }
 
 // apply mask to a value
@@ -85,15 +91,9 @@ void apply_mask( long int &value, std::string mask ){
 
     for (unsigned int i=0; i<mask.size(); i++){
 
-        if ( mask[i] == 'X' ){
-            continue;
-        }
-        else if ( mask[i] == '1' ){
-            set_bit(value, (mask.size()-i)-1 );
-        }
-        else if ( mask[i] == '0' ){
-            clear_bit(value, (mask.size()-i)-1 );
-        }
+        if ( mask[i] == 'X' ){ continue; }
+        else if ( mask[i] == '1' ){ set_bit(value, (mask.size()-i)-1 ); }
+        else if ( mask[i] == '0' ){ clear_bit(value, (mask.size()-i)-1 ); }
     }
 }
 
@@ -110,19 +110,14 @@ std::vector<long int> apply_mask2( long int &value, std::string mask ){
     for (unsigned int i=0; i<mask.size(); i++){
 
         // if mask bit == 'X' set address bit to 'X'
-        if ( mask[i] == 'X' ){
-            binary[i] = 'X';
-        }
+        if ( mask[i] == 'X' ){ binary[i] = 'X'; }
         // if mask bit == '1' set address bit to '1'
-        else if ( mask[i] == '1' ){
-            binary[i] = '1';
-        }
+        else if ( mask[i] == '1' ){ binary[i] = '1'; }
         // if mask bit == '0' do nothing
     }
 
     // resolve 'X's in value
     return floating_binary(binary);
-
 }
 
 
