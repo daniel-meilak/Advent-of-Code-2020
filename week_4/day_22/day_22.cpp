@@ -7,6 +7,7 @@
 #include"../../Utils/utils.h"
 
 std::string recursive_combat( std::list<int> &player1, std::list<int> &player2, std::vector<std::pair<std::string, std::string>> &history);
+int combat(std::list<int> player1, std::list<int> player2);
 std::string list_to_str(std::list<int> cards);
 
 int main(){
@@ -21,6 +22,8 @@ int main(){
         player2.push_back(std::stoi(input[1][i]));
     }
 
+    std::cout << "Answer (part 1): " << combat(player1,player2) << std::endl;
+
     // set up flag for finding a winner and a history list
     std::string winner = "";
     std::vector<std::pair<std::string, std::string>> history;
@@ -32,24 +35,64 @@ int main(){
 
     // count winners points
     int score = 0;
+    int i = 1;
     if ( winner == "player 1" ){
-        int i = 1;
         for ( auto it=player1.rbegin(); it != player1.rend(); it++ ){
             score += *it * i;
             i++;
         }
     }
     else {
-        int i = 1;
         for ( auto it=player2.rbegin(); it != player2.rend(); it++ ){
             score += *it * i;
             i++;
         }
     }
 
-    std::cout << "Winner is " << winner << " with " << score << " points!" << std::endl;
+    std::cout << "Answer (part 2): " << score << std::endl;
 
     return 0;
+}
+
+int combat(std::list<int> player1, std::list<int> player2){
+
+    // play until one play has all cards
+    while (!player1.empty() && !player2.empty()){
+
+        // take top card of each deck
+        unsigned int p1_top = player1.front();
+        unsigned int p2_top = player2.front();
+        player1.pop_front();
+        player2.pop_front();
+
+        // winner with higher card places them at bottom of deck
+        if (p1_top>p2_top){
+            player1.push_back(p1_top);
+            player1.push_back(p2_top);
+        }
+        else {
+            player2.push_back(p2_top);
+            player2.push_back(p1_top);
+        }
+    }
+
+    int score = 0;
+    int i = 1;
+
+    if (!player1.empty()){
+        for ( auto it=player1.rbegin(); it != player1.rend(); it++ ){
+            score += *it * i;
+            i++;
+        }
+    }
+    else {
+        for ( auto it=player2.rbegin(); it != player2.rend(); it++ ){
+            score += *it * i;
+            i++;
+        }
+    }
+
+    return score;
 }
 
 std::string recursive_combat( std::list<int> &player1, std::list<int> &player2, std::vector<std::pair<std::string, std::string>> &history){
@@ -65,9 +108,7 @@ std::string recursive_combat( std::list<int> &player1, std::list<int> &player2, 
         return winner;
     }
     // if it hasn't been played, add it to the history
-    else {
-        history.push_back(game);
-    }
+    else { history.push_back(game); }
     
 
     // compare top card of each deck
@@ -78,7 +119,7 @@ std::string recursive_combat( std::list<int> &player1, std::list<int> &player2, 
     player2.pop_front();
 
     // if both players have enough cards
-    if ( (player1.size() >= p1_top) && (player2.size() >= p2_top) ){
+    if (player1.size()>=p1_top && player2.size()>=p2_top){
         
         // create copies of decks containing num of cards = top card
         std::list<int> p1_copy(p1_top), p2_copy(p2_top);
@@ -131,12 +172,8 @@ std::string recursive_combat( std::list<int> &player1, std::list<int> &player2, 
     }
 
     // if a deck size goes to zero we have a winner
-    if (player1.size() == 0){
-        winner = "player 2";
-    }
-    else if (player2.size() == 0){
-        winner = "player 1";
-    }
+    if      (player1.size() == 0){ winner = "player 2"; }
+    else if (player2.size() == 0){ winner = "player 1"; }
 
     return winner;
 }

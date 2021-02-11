@@ -5,112 +5,110 @@
 #include<cstdlib>
 #include"../../Utils/utils.h"
 
-void copy_loop(std::vector<int> &input, std::vector<int>::iterator first, int n, std::vector<int> &result);
-void erase_loop(std::vector<int> &input, std::vector<int>::iterator first, int n);
-void incr_iter_loop(std::vector<int> &input, std::vector<int>::iterator &it);
+void crab_cups(int n, std::vector<int> &cups, int start);
+void part1(std::vector<int> input);
+void part2(std::vector<int> input);
 
 int main(){
 
+    // set values for input
     std::vector<int> input = {7,9,2,8,4,5,1,3,6};
-    //std::vector<int> input = {3,8,9,1,2,5,4,6,7};
-    
-    int max_num = input.size();
 
-    // iterator to starting value
-    auto it = input.begin();
-    int current_val = *it;
-
-    int iter = 100;
-
-    for (int i=0; i<iter; i++){
-        // vector to store pciked up cards
-        std::vector<int> hand;
-
-        // copy of next position
-        auto next_it = it;
-        incr_iter_loop(input, next_it);
-
-        // pick up cups
-        copy_loop(input, next_it, 3, hand);
-
-        // remove cups from input
-        erase_loop(input, next_it, 3);
-
-        // destination is current label -1
-        int dest = *it -1;
-
-        // if destination is 0, loop back round
-        if (dest == 0){
-            dest += max_num;
-        }
-
-        // if destination is in hand, keep decrimenting
-        while ( std::find(hand.begin(), hand.end(), dest) != hand.end() ){
-            dest--;
-            if (dest == 0){
-                dest += 9;
-            }
-        }
-
-        // insert hand into destination
-        auto dest_it = std::find(input.begin(), input.end(), dest);
-        incr_iter_loop(input, dest_it);
-        input.insert(dest_it, hand.begin(), hand.end());
-    
-        // move current cup forward
-        it = std::find(input.begin(), input.end(), current_val);
-        incr_iter_loop(input, it);
-        current_val = *it;
-    }
-
-    it = std::find(input.begin(), input.end(), 1);
-    std::string answer;
-    for (int i=0; i<8; i++){
-        incr_iter_loop(input, it);
-        answer.push_back(*it + '0');
-    }
-
-    std::cout << "Answer: " << answer << std::endl;
+    part1(input);
+    part2(input);
 
     return 0;
 }
 
-// copy_n but loops if iterator reaches end 
-void copy_loop(std::vector<int> &input, std::vector<int>::iterator first, int n, std::vector<int> &result){
-    result.resize(n);
-    auto it = result.begin();
-    while (n>0){
-        *it = *first;
-        ++it;
-        if ( first+1 == input.end() ){
-            first = input.begin();
-        }
-        else {
-            ++first;
-        }
-        --n;
+void part2(std::vector<int> input){
+
+    // create vector with 1mil entries (ignoring 0 index)
+    std::vector<int> cups(1000001);
+
+    // vector at i contains i+1
+    // i.e. each index points to the value that follows
+    for (size_t i=0; i<cups.size(); i++){
+        cups[i] = i+1;
     }
+
+    // index 0 and 1mil are special cases
+    // 0 points to 0 so it is never used
+    // 1mill goes back to 1
+    cups.front() = 0;
+    cups.back() = input.front();
+
+    // fill in start of cups using input
+    for (size_t i=0; i<input.size()-1; i++){
+        cups[input[i]] = input[i+1];
+    }
+    cups[input[input.size()-1]] = 10;
+
+    // play cups 10 million times
+    crab_cups(10000000, cups, input.front());
+
+    long answer = 1UL * cups[1] * cups[cups[1]];
+
+    std::cout << "Answer (part 2): " << answer << std::endl;
 }
 
-// vector.erase but removes elements from beginning if range goes over vector.end()
-void erase_loop(std::vector<int> &input, std::vector<int>::iterator first, int n){
-    int distance = std::distance(first, input.end());
-    if ( n >= distance ){
-        input.erase(first, input.end());
-        input.erase(input.begin(), input.begin()+(n-distance));
+void part1(std::vector<int> input){
+
+    // vector of cups 
+    std::vector<int> cups(10);
+
+    // fill cups with input
+    for (size_t i=0; i<input.size()-1; i++){
+        cups[input[i]] = input[i+1];
     }
-    else {
-        input.erase(first, first+n);
+    cups[input[input.size()-1]] = input[0];
+
+    // special cases
+    cups[0] = 0;
+    
+    // play cups 100 times
+    crab_cups(100, cups, input.front());
+
+    // string for answer
+    std::string answer;
+    int i = 1;
+    for (int j=0; j<8; j++){
+        answer += cups[i] + '0';
+        i = cups[i];
     }
+
+    std::cout << "Answer (part 1): " << answer << std::endl;
 }
 
-// increment iterator through cyclic vector (incrementing above vector.end() allowed)
-void incr_iter_loop(std::vector<int> &input, std::vector<int>::iterator &it){
 
-    if (it+1 == input.end()){
-        it = input.begin();
-    }
-    else {
-        ++it;
+// the cups game
+void crab_cups(int n, std::vector<int> &cups, int start){
+
+    // start with first cup
+    int cup = start;
+    for (int i=1; i<=n; i++){
+        // get the next three cups after cup
+        int cup1 = cups[cup];
+        int cup2 = cups[cup1];
+        int cup3 = cups[cup2];
+
+        // destination cup is cup-1
+        int dest = cup-1;
+
+        // if dest is too low, loop back
+        if (dest <= 0){ dest = cups.size()-1; }
+
+        while (dest == cup1 || dest == cup2 || dest == cup3){
+            dest--;
+            if (dest <= 0){ dest = cups.size()-1; }
+        }
+
+        // reassing links
+        int tmp = cups[dest];
+        cups[cup] = cups[cup3];
+        cups[dest] = cup1;
+        cups[cup3] = tmp;
+
+        // move cup to next 
+        cup = cups[cup];
     }
 }

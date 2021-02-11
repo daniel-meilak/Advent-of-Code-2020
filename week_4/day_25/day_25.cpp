@@ -5,7 +5,7 @@
 #include<cstdlib>
 #include"../../Utils/utils.h"
 
-long int handshake( long int subject_number, long int loop_size );
+long handshake( long subject_number, long loop_size );
 
 int main(){
 
@@ -13,7 +13,7 @@ int main(){
     std::vector<int> input = input_to_int(read_input("input", ""));
 
     // specific loop values for door and card
-    int card_loop, door_loop;
+    int card_loop;
 
     int loop_max = 100000000;
     int subject_number = 7;
@@ -31,30 +31,25 @@ int main(){
         if ( public_key == input[0] ){
             card_loop = i;
             card_found = true;
-            std::cout << "Card loop size: " << card_loop << std::endl;
         }
         else if ( public_key == input[1] ){
-            door_loop = i;
             door_found = true;
-            std::cout << "Door loop size: " << door_loop << std::endl;
         }
 
         // if both keys are found, break
-        if (card_found && door_found){
-            break;
-        }
+        if (card_found && door_found){ break; }
     }
 
-    long int encryption_key = handshake(input[1], card_loop);
+    long encryption_key = handshake(input[1], card_loop);
 
-    std::cout << "Encryption key: " << encryption_key << std::endl;
+    std::cout << "Answer (part 1): " << encryption_key << std::endl;
 
     return 0;
 }
 
-long int handshake( long int subject_number, long int loop_size ){
+long handshake( long subject_number, long loop_size ){
 
-    long int output = 1UL;
+    long output = 1UL;
 
     for (int i=0; i<loop_size; i++){
         output *= subject_number;
