@@ -43,12 +43,12 @@ int main(){
     // for each allergen
     for (auto & pair : allergen_foods){
         // for each food linked to allergen
-        for (unsigned int i=0; i<pair.second.size(); i++ ){
+        for (size_t i=0; i<pair.second.size(); i++ ){
             // for each ingredient in food
-            for ( unsigned int j=0; j<pair.second[i].size(); j++){
+            for ( size_t j=0; j<pair.second[i].size(); j++){
                 std::string ingredient = pair.second[i][j];
                 // check each food for current ingredient
-                for (unsigned int k=0; k<pair.second.size(); k++){
+                for (size_t k=0; k<pair.second.size(); k++){
                     // if ingredient is not found in each food, it cannot be the allergen
                     if ( std::find(pair.second[k].begin(), pair.second[k].end(), ingredient ) == pair.second[k].end() ){
                         // remove ingredient from all pair.second (foods) linked to allergen
@@ -107,13 +107,14 @@ int main(){
     }
 
     // answer is num of total ingredients - count
-    std::cout << "Part 1: " << ingredients_list.size()-count << std::endl;
+    std::cout << "Answer (Part 1): " << ingredients_list.size()-count << std::endl;
 
     // sort allergens alphabetically
     std::sort(allergen_translation.begin(), allergen_translation.end());
 
     // output cannonical dangerous ingredient list
-    for ( unsigned int i=0; i<allergen_translation.size()-1; i++ ){
+    std::cout << "Answer (Part 2): ";
+    for ( size_t i=0; i<allergen_translation.size()-1; i++ ){
         std::cout << allergen_translation[i].second << ",";
     }
     std::cout << allergen_translation.back().second << std::endl;

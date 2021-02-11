@@ -29,7 +29,7 @@ int main(){
     int index;
     std::vector<std::string> piece;
 
-    for (unsigned int i=0; i<input.size(); i++){
+    for (size_t i=0; i<input.size(); i++){
 
         std::string line = input[i];
 
@@ -37,15 +37,10 @@ int main(){
             camera_array[index] = piece;
             piece.clear();
         }
-        else if (line[0] == 'T'){
-            
-            index = std::stoi(line.substr(5,4)); 
-        }
-        else {
-            
-            piece.push_back(line);
-        }
+        else if (line[0] == 'T'){ index = std::stoi(line.substr(5,4)); }
+        else { piece.push_back(line); }
     }
+
     camera_array[index] = piece;
 
     // take the first piece in the puzzle and find the row it is in
@@ -59,7 +54,7 @@ int main(){
     }
 
     // find answer by multiplying ids of corners
-    long long int sum = 1ULL*picture.front().front()*picture.front().back()*picture.back().front()*picture.back().back();
+    long long sum = 1ULL*picture.front().front()*picture.front().back()*picture.back().front()*picture.back().back();
 
     std::cout << "Answer (part 1): " << sum << std::endl;
 
@@ -71,7 +66,7 @@ int main(){
         pair.second.erase(pair.second.end());
 
         // remove sides
-        for (unsigned int i=0; i<pair.second.size(); i++){
+        for (size_t i=0; i<pair.second.size(); i++){
             pair.second[i] = pair.second[i].substr(1, pair.second[i].size()-2);
         }
     }
@@ -85,15 +80,17 @@ int main(){
     // vector<string> containing finished picture
     std::vector<std::string> finished_picture(total_size);
 
-    for (unsigned int i=0; i<picture.size(); i++){
-        for (unsigned int j=0; j<picture[0].size(); j++){
-            for (unsigned int k=0+j*size; k<size+j*size; k++){
+    for (size_t i=0; i<picture.size(); i++){
+        for (size_t j=0; j<picture[0].size(); j++){
+            for (size_t k=0+j*size; k<size+j*size; k++){
                 finished_picture[k] += camera_array[picture[i][j]][k % size];
             }
         }
     }
 
     // find the monster after rotating the image
+    flip(finished_picture);
+    rotate(finished_picture, "right");
     rotate(finished_picture, "right");
     find_monster(finished_picture);
 
@@ -101,7 +98,6 @@ int main(){
     int tally = 0;
     for (std::string line : finished_picture){
         tally += std::count(line.begin(), line.end(), '#'); 
-        std::cout << line << std::endl;
     }
 
     std::cout << "Answer (part 2): " << tally << std::endl;    
@@ -117,9 +113,9 @@ void find_monster(std::vector<std::string> &picture){
     std::vector<int> monster_bot = {1,4,7,10,13,16};
 
     // search for mid in 2nd to 2nd last rows
-    for (unsigned int i=1; i<picture.size()-1; i++){
+    for (size_t i=1; i<picture.size()-1; i++){
         // search along the width of the picture
-        for (unsigned int j=0; j<picture[0].size()-20; j++){
+        for (size_t j=0; j<picture[0].size()-20; j++){
 
             bool invalid = false;
 
@@ -130,24 +126,15 @@ void find_monster(std::vector<std::string> &picture){
                     break;
                 }
             }
+
             if (!invalid){
                 for (int val : monster_top){
-                    if ( picture[i-1][val+j] != '#' ){
+                    if (picture[i-1][val+j]!='#' || picture[i+1][val+j]!='#'){
                         invalid = true;
                         break;
                     }
                 }
-            }
-            if (!invalid){
-                for (int val : monster_bot){
-                    if ( picture[i+1][val+j] != '#' ){
-                        invalid = true;
-                        break;
-                    }
-                }
-            }
-            // if !invalid, top bottom and mid are matched!
-            if (!invalid){
+
                 // change all the monster '#' to 'O'
                 for (int val : monster_bot){
                     picture[i+1][val+j] = 'O';
@@ -210,7 +197,7 @@ void find_neighbours(std::string border, std::vector<int> &row, std::unordered_m
         old_border = border;
 
         // loop through each puzzle piece
-        for ( auto & [next_id, piece] : camera_array){
+        for (auto & [next_id, piece] : camera_array){
 
             // ignore piece already in row
             if ( std::find(row.begin(), row.end(), next_id) != row.end() ){ continue; }
@@ -222,12 +209,8 @@ void find_neighbours(std::string border, std::vector<int> &row, std::unordered_m
             if (next_border != ""){
                 
                 // add the piece to the row
-                if ((side == "left") || (side == "top")){
-                    row.insert(row.begin(),next_id);
-                }
-                else {
-                    row.push_back(next_id);
-                }
+                if ((side == "left") || (side == "top")){ row.insert(row.begin(),next_id); }
+                else { row.push_back(next_id); }
                 
                 // get the next border and restart search
                 border     = next_border;
@@ -395,12 +378,8 @@ void rotate( std::vector<std::string> &matrix, std::string direction ){
 
         // turn it into nth column of output
         for (int j=size-1; j>=0; j--){
-            if ( direction == "left" ){
-                output[j][i] = s[size-1-j];
-            }
-            else if ( direction == "right" ){
-                output[j][size-1-i] = s[j];
-            }
+            if      (direction == "left" ){ output[j][i] = s[size-1-j]; }
+            else if (direction == "right"){ output[j][size-1-i] = s[j]; }
             else {
                 std::cout << "Invalid rotation" << std::endl;
                 std::exit(EXIT_FAILURE);
@@ -412,7 +391,7 @@ void rotate( std::vector<std::string> &matrix, std::string direction ){
 }
 
 // horizontally flip square matrix 
-void flip( std::vector<std::string> &matrix ){
+void flip(std::vector<std::string> &matrix){
 
     int size = matrix.size();
 
@@ -434,7 +413,7 @@ void flip( std::vector<std::string> &matrix ){
     matrix = output;
 }
 
-void flip_vert( std::vector<std::string> &matrix ){
+void flip_vert(std::vector<std::string> &matrix){
 
     int size = matrix.size();
 

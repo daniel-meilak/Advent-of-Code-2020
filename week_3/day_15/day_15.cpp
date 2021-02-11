@@ -4,28 +4,37 @@
 #include<algorithm>
 #include<cstdlib>
 #include<list>
-#include<chrono>
 #include<unordered_map>
 #include<map>
 #include"../../Utils/utils.h"
+
+// forward function declarations
+int find_term(const std::vector<int> &input, const size_t &term, const bool part2);
 
 int main(){
 
     // read input into vector of strings.
     std::vector<int> input = input_to_int(read_input("input", ","));
 
-    // vector size
-    int size = 30000000;
+    size_t part1 = 2020;
+    size_t part2 = 30000000;
 
-    // keep initial time
-    auto t1 = std::chrono::high_resolution_clock::now();
+    std::cout << "Answer (part 1): " << find_term(input,part1,false) << std::endl;
+    std::cout << "Answer (part 1): " << find_term(input,part2,true ) << std::endl;
+
+    return 0;
+}
+
+int find_term(const std::vector<int> &input, const size_t &term, const bool part2){
+
+    size_t size = input.size()-1;
 
     // vector containing last pos of index i in sequence
     // if index i has not occured in seq it has value -1
-    std::vector<int> last_pos(size,-1);
+    std::vector<int> last_pos(term,-1);
 
     // commit sequence up to final number
-    for (unsigned int i=0; i<input.size()-1; i++){
+    for (size_t i=0; i<size; i++){
         last_pos[input[i]] = i;
     }
 
@@ -34,7 +43,7 @@ int main(){
     int next_term;
 
     // continue sequence till term 'size'
-    for (int i=input.size()-1; i<size-1; i++){
+    for (size_t i=size; i<term-1; i++){
 
         // if current term not in seq
         if ( last_pos[current_term] == -1 ){
@@ -59,14 +68,5 @@ int main(){
         }
     }
 
-    // keep final time
-    auto t2 = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count();
-
-    std::cout << "Term " << size << " is: " << current_term << std::endl; 
-
-    // print calc time for comparing map, unordered_map, vector, list usage
-    std::cout << duration << std::endl;    
-
-    return 0;
+    return current_term;
 }
