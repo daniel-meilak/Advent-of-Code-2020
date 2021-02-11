@@ -7,8 +7,8 @@
 #include"../../Utils/utils.h"
 
 // forward function declarations
-std::string expand_brackets(std::string &line);
-long long int do_math(std::string line);
+std::string expand_brackets(std::string &line, const bool part2);
+long long do_math(std::string line, const bool part2);
 bool contains_brackets(std::string &line);
 std::string escape_all(std::string line);
 
@@ -17,31 +17,31 @@ int main(){
     // read input into vector of strings.
     std::vector<std::string> input = read_input("input", "");
 
-    long long int sum = 0;
+    long long part1 = 0LL, part2 = 0LL;
 
     for (std::string line : input){
-        sum += do_math(line);
+        part1 += do_math(line,false);
+        part2 += do_math(line,true );
     }
 
-    std::cout << "Answer: " << sum << std::endl;
+    std::cout << "Answer (part 1): " << part1 << std::endl;
+    std::cout << "Answer (part 2): " << part2 << std::endl;
 
     return 0;
 }
 
-// takes a string containing a maths eqn and evaluates from left to right 
-long long int do_math(std::string line){
+// takes a string containing a maths eqn and evaluates it with +'s before *'s 
+long long do_math(std::string line, const bool part2){
 
     // if string contains parentheses, resolve before calculating
-    if (contains_brackets(line)){
-        expand_brackets(line);
-    }
+    if (contains_brackets(line)){ expand_brackets(line,part2); }
 
     // regex to match integers [0-9]+ and operators +/*
     std::regex numbers(R"(\d+)");
     std::regex signs(R"(\+|\*)");
 
     // vector to hold ints and operators
-    std::vector<long long int> values; 
+    std::vector<long long> values; 
     std::vector<std::string> operators;
 
     // match ints
@@ -65,20 +65,40 @@ long long int do_math(std::string line){
     }
 
     // calculate
-    long long int answer = values[0];
-    for (unsigned int i=0; i<operators.size(); i++){
-        if ( operators[i] == "+" ){
-            answer += values[i+1];
+    // first perfom all additions, replacing some vector elements with 1
+    // 1 * 2 + 3 * 4 -> 1 * 5 * 1 * 4
+    long long answer = values[0];
+    long long sum = 1ULL;
+
+    if (part2){
+        for (size_t i=0; i<operators.size(); i++){
+            if ( operators[i] == "+" ){
+                values[i+1] = values[i] + values [i+1];
+                values[i] = 1ULL;
+            }
         }
-        else {
-            answer *= values[i+1];
+        
+        // then multiply out the full line
+        for (long long num : values){
+            sum *= num;
         }
     }
+    else {
+        for (size_t i=0; i<operators.size(); i++){
+            if ( operators[i] == "+" ){
+                answer += values[i+1];
+            }
+            else {
+                answer *= values[i+1];
+            }
+        }   
+    }
 
-    return answer;
+    if (part2){ return sum; }
+    else {return answer; }
 }
 
-std::string expand_brackets(std::string &line){
+std::string expand_brackets(std::string &line, const bool part2){
 
     // matches bracketed arithmetic expression eg "(1 + 2 * 3)"
     std::regex bracketed(R"(\([0-9 \+\*]+\))");
@@ -90,16 +110,14 @@ std::string expand_brackets(std::string &line){
     while ( match != match_end ){
         std::string equation = match->str();
         
-        std::string answer = std::to_string(do_math(equation.substr(1, equation.size()-2)));
+        std::string answer = std::to_string(do_math(equation.substr(1, equation.size()-2),part2));
 
         line = std::regex_replace(line, std::regex(escape_all(equation)), answer, std::regex_constants::format_first_only);
         
         match++;
     }
 
-    if (contains_brackets(line)){
-        expand_brackets(line);
-    }
+    if (contains_brackets(line)){ expand_brackets(line,part2); }
 
     return line;
 }
@@ -109,16 +127,10 @@ bool contains_brackets(std::string &line){
 
     // matches bracketed arithmetic expression eg "(1 + 2 * 3)"
     std::regex bracketed(R"(\([0-9 \+\*]+\))");
-
     std::smatch m;
 
     // if match to regex is found, return true
-    if (std::regex_search(line, m, bracketed)){
-        return true;
-    }
-
-    return false;
-
+    return std::regex_search(line, m, bracketed);
 }
 
 
