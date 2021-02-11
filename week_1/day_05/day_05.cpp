@@ -14,7 +14,7 @@ int main(){
     int part1, part2;
 
     // loop through input
-    for (unsigned int i=0; i<input.size(); i++){
+    for (size_t i=0; i<input.size(); i++){
 
         std::string &line = input[i];
         size_t size = line.size();
