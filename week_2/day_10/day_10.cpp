@@ -9,7 +9,7 @@
 int main(){
 
     // read input into vector of ints.
-    std::vector<int> input = input_to_int(read_input("input", ""));
+    std::vector<int> input = input_to_int<int>(read_input("input", ""));
 
     // add socket to input
     input.push_back(0);
@@ -30,8 +30,8 @@ int main(){
     }
 
     // number of 1 and 3 differences
-    int diff_1 = std::ranges::count(diff,1);
-    int diff_3 = std::ranges::count(diff,3);
+    long int diff_1 = std::ranges::count(diff,1);
+    long int diff_3 = std::ranges::count(diff,3);
 
     // output answer
     std::cout << "Answer (part 1): " << diff_1*diff_3 << std::endl;

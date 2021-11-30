@@ -14,8 +14,8 @@ long int find_value( std::string line );
 std::vector<long int> apply_mask2( long int &value, std::string mask );
 std::vector<long int> floating_binary( std::string line );
 void apply_mask( long int &value, std::string mask );
-void set_bit( long int &num, int position );
-void clear_bit( long int &num, int position );
+void set_bit( long int &num, long int position );
+void clear_bit( long int &num, long int position );
 long long mask(const std::vector<std::string> &input, const bool part2);
 
 int main(){
@@ -167,14 +167,14 @@ std::vector<long int> floating_binary( std::string line ){
 }
 
 // set bit at position to 1
-void set_bit(long int &num, int position)
+void set_bit(long int &num, long int position)
 {
 	long int mask = 1UL << position;
 	num =  num | mask;
 }
 
 // clear bit at position to 0
-void clear_bit(long int &num, int position)
+void clear_bit(long int &num, long int position)
 {
 	long int mask = 1UL << position;
 	num = num & ~mask;
@@ -183,7 +183,7 @@ void clear_bit(long int &num, int position)
 // exctract address from line
 long int find_address( std::string line ){
 
-    int pos = line.find(']');
+    size_t pos = line.find(']');
 
     return std::stol(line.substr(4, pos-4));
 }
@@ -191,7 +191,7 @@ long int find_address( std::string line ){
 // extract value from line
 long int find_value( std::string line ){
 
-    int pos = line.find('=');
+    size_t pos = line.find('=');
 
     return std::stoi(line.substr(pos+2));
 }

@@ -26,8 +26,8 @@ int main(){
 long tree_count(int right, int down, std::vector<std::string>& input){
 
     // x in horizontal position, y is vertical. (x,y)=(0,0) is at top left
-    int x=0;
-    int max_y = input[0].size();
+    size_t x=0;
+    size_t max_y = input[0].size();
 
     // number of trees encountered
     long num_trees=0;

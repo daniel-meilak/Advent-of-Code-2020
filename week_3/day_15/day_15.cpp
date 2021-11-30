@@ -9,23 +9,23 @@
 #include"../../Utils/utils.h"
 
 // forward function declarations
-int find_term(const std::vector<int> &input, const size_t &term, const bool part2);
+int find_term(const std::vector<int> &input, const size_t &term);
 
 int main(){
 
     // read input into vector of strings.
-    std::vector<int> input = input_to_int(read_input("input", ","));
+    std::vector<int> input = input_to_int<int>(read_input("input", ","));
 
     size_t part1 = 2020;
     size_t part2 = 30000000;
 
-    std::cout << "Answer (part 1): " << find_term(input,part1,false) << std::endl;
-    std::cout << "Answer (part 1): " << find_term(input,part2,true ) << std::endl;
+    std::cout << "Answer (part 1): " << find_term(input,part1) << std::endl;
+    std::cout << "Answer (part 1): " << find_term(input,part2) << std::endl;
 
     return 0;
 }
 
-int find_term(const std::vector<int> &input, const size_t &term, const bool part2){
+int find_term(const std::vector<int> &input, const size_t &term){
 
     size_t size = input.size()-1;
 
@@ -35,7 +35,7 @@ int find_term(const std::vector<int> &input, const size_t &term, const bool part
 
     // commit sequence up to final number
     for (size_t i=0; i<size; i++){
-        last_pos[input[i]] = i;
+        last_pos[input[i]] = (int)i;
     }
 
     // current term starts at last term of input
@@ -49,7 +49,7 @@ int find_term(const std::vector<int> &input, const size_t &term, const bool part
         if ( last_pos[current_term] == -1 ){
 
             // change last_pos of current_term to current position
-            last_pos[current_term] = i;
+            last_pos[current_term] = (int)i;
             
             // next term is 0
             current_term = 0;
@@ -58,10 +58,10 @@ int find_term(const std::vector<int> &input, const size_t &term, const bool part
         // last occurence
         else {
 
-            next_term = i - last_pos[current_term];
+            next_term = (int)i - last_pos[current_term];
             
             // change last_post of current_term to current position
-            last_pos[current_term] = i;
+            last_pos[current_term] = (int)i;
 
             // change current_term to next_term
             current_term = next_term;

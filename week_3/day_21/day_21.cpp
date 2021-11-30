@@ -82,7 +82,7 @@ int main(){
     // only one other ingredient. Repeat process.
     std::string link;
     std::vector<std::pair<std::string, std::string>> allergen_translation;
-    int loop = reduced_allergens.size();
+    int loop = (int)reduced_allergens.size();
     for (int i=0; i<loop; i++){
         for (auto & [allergen, ingredients] : reduced_allergens){
             if ( ingredients.size() == 1 ){
@@ -101,7 +101,7 @@ int main(){
     }
 
     // count number of occurences of allergens in total ingredients list
-    int count = 0;
+    size_t count = 0;
     for ( const auto & pair : allergen_translation){
         count += std::count(ingredients_list.begin(), ingredients_list.end(), pair.second);
     }

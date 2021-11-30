@@ -81,7 +81,7 @@ int main(){
                 std::vector<bool> occupied(8,false);
                 
                 // directions
-                unsigned int a,b;
+                size_t a,b;
 
                 // west
                 a = x+1;

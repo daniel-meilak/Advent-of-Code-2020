@@ -8,7 +8,7 @@
 int main(){
 
     // read input into vector of long long ints.
-    std::vector<long long int> input = input_to_llint(read_input("input", ""));
+    std::vector<long long int> input = input_to_int<long long int>(read_input("input", ""));
     size_t size = input.size();
 
     // bool vector to check if we have found sum
@@ -29,7 +29,7 @@ int main(){
 
     // for part two, save the number
     long long part1, part2;
-    int invalid_index;
+    size_t invalid_index;
 
     // loop through check looking for false value (invalid number)
     for (size_t i=25; i<size; i++){
@@ -46,7 +46,7 @@ int main(){
     int min = 0;
 
     // loop from index 0 to invalid number
-    for ( int i=0; i<invalid_index; i++){
+    for ( size_t i=0; i<invalid_index; i++){
 
         // add together numbers until the value of invalid number is reacher or exceeded
         sum += input[i];

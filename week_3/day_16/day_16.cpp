@@ -51,7 +51,7 @@ int main(){
     }
     
     // read nearby tickets
-    std::vector<int> tickets_together = input_to_int(read_input("nearby_tickets",","));
+    std::vector<int> tickets_together = input_to_int<int>(read_input("nearby_tickets",","));
     std::vector<std::vector<int>> tickets;
     std::vector<int> single;
     
@@ -129,7 +129,7 @@ int main(){
             if (count(validity[i],n) && !link.contains(n)){
 
                 // save rule column link
-                link[n] = i;
+                link[n] = (int)i;
 
                 // remove rule from other columns
                 for (size_t j=0; j<validity.size(); j++){
@@ -140,7 +140,7 @@ int main(){
     }
 
     // multiply together departure fields in my ticket
-    std::vector<long long> my = input_to_llint(read_input("my_ticket",","));
+    std::vector<long long> my = input_to_int<long long>(read_input("my_ticket",","));
     long long part2 = my[link[0]]*my[link[1]]*my[link[2]]*my[link[3]]*my[link[4]]*my[link[5]];
 
     std::cout << "Answer (part 2): " << part2 << std::endl;    
@@ -156,7 +156,7 @@ bool count(const std::vector<bool> &vec, int &n){
     for (size_t i=0; i<size; i++){
         if (vec[i]){
             c++;
-            n=i;
+            n=(int)i;
         }
     }
 

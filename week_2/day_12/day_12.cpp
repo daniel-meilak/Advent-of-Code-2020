@@ -67,8 +67,8 @@ int navigate(const std::vector<std::pair<char, int>> &nav, const bool part2){
                 if (part2){
                     double ang = -instruction.second*std::numbers::pi/180.0; // convert to rad
                     int x,y;
-                    x = std::round(way_x*cos(ang) - way_y*sin(ang));
-                    y = std::round(way_y*cos(ang) + way_x*sin(ang));
+                    x = (int)std::round(way_x*cos(ang) - way_y*sin(ang));
+                    y = (int)std::round(way_y*cos(ang) + way_x*sin(ang));
                     way_x = x;
                     way_y = y;
                 }
@@ -80,8 +80,8 @@ int navigate(const std::vector<std::pair<char, int>> &nav, const bool part2){
                 if (part2){
                     double ang = instruction.second*std::numbers::pi/180.0; // convert to rad
                     int x,y;
-                    x = std::round(way_x*cos(ang) - way_y*sin(ang));
-                    y = std::round(way_y*cos(ang) + way_x*sin(ang));
+                    x = (int)std::round(way_x*cos(ang) - way_y*sin(ang));
+                    y = (int)std::round(way_y*cos(ang) + way_x*sin(ang));
                     way_x = x;
                     way_y = y;
                 }

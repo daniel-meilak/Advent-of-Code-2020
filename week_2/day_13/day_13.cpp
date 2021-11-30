@@ -5,7 +5,7 @@
 #include<cstdlib>
 #include<utility>
 #include"../../Utils/utils.h"
-#include"../../Utils/math_func.cpp"
+#include"../../Utils/math_func.h"
 
 int main(){
 

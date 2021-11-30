@@ -6,7 +6,7 @@
 #include"../../Utils/utils.h"
 
 // forward function declarations
-std::string string_intersection( std::vector<std::string> group, int n );
+std::string string_intersection( std::vector<std::string> group, size_t n );
 
 int main(){
 
@@ -15,7 +15,7 @@ int main(){
     size_t size = input.size();
 
     // tally of questions answered
-    int part1=0, part2=0;
+    size_t part1=0, part2=0;
     
     // list of unique questions answered by the group
     std::string questions = "";
@@ -72,7 +72,7 @@ int main(){
 }
 
 // find the intersections of a group of strings
-std::string string_intersection( std::vector<std::string> group, int n ){
+std::string string_intersection( std::vector<std::string> group, size_t n ){
 
     // if group is trivial (one person) all questions answered intersect
     if ( n == 1 ){ return group[0]; }

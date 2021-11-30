@@ -10,12 +10,13 @@ int main(){
     std::vector<std::string> delimiters = {"-"," ",":"};
     std::vector<std::vector<std::string>> input = read_input_2D("input", delimiters);
 
-    int min, max, matches, part1=0, part2=0;
+    int min, max, part1=0, part2=0;
+    long int matches;
     char letter;
-    std::string line, password;
+    std::string password;
 
     // loop through each input
-    for (const std::vector<std::string> line : input){
+    for (const std::vector<std::string> &line : input){
 
         // get min and max
         min = std::stoi(line[0]);
