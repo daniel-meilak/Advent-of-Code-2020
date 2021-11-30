@@ -9,7 +9,7 @@
 #include<unordered_map>
 #include<map>
 #include"../../Utils/utils.h"
-#include"../../Utils/math_func.cpp"
+#include"../../Utils/math_func.h"
 
 // forward function declarations
 std::vector<std::string> process_substring(std::string value);
