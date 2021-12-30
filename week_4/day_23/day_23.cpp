@@ -12,10 +12,12 @@ void part2(std::vector<int> input);
 int main(){
 
     // set values for input
-    std::vector<int> input = {7,9,2,8,4,5,1,3,6};
+    std::string input = read_line("input_23");
+    std::vector<int> digits;
+    for ( const char &c : input){ digits.push_back(c-'0'); }
 
-    part1(input);
-    part2(input);
+    part1(digits);
+    part2(digits);
 
     return 0;
 }

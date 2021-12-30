@@ -19,8 +19,25 @@ bool count(const std::vector<bool> &vec, int &n);
 
 int main(){
 
-    // read rules into vector of strings.
-    std::vector<std::string> rule_list = read_input("rules", "");
+    // read input
+    std::vector<std::string> input = read_input("input_16", ",");
+
+    // separate input into rule_list, tickets and my ticket
+    std::vector<std::string> rule_list;
+    std::vector<int> tickets_together;
+    std::vector<long long> my;
+
+    int index = 0;
+    for (const auto& line : input){
+        if (line.empty()){ index++; continue; }
+        if (line=="your ticket:" || line=="nearby tickets:"){ continue; }
+
+        switch (index){
+            case 0: rule_list.push_back(line); break;
+            case 1: my.push_back(std::stoll(line)); break;
+            case 2: tickets_together.push_back(std::stoi(line)); break;
+        }
+    }
 
     // vector of rules
     std::vector<rule_t> rules;
@@ -51,7 +68,6 @@ int main(){
     }
     
     // read nearby tickets
-    std::vector<int> tickets_together = input_to_int<int>(read_input("nearby_tickets",","));
     std::vector<std::vector<int>> tickets;
     std::vector<int> single;
     
@@ -140,7 +156,6 @@ int main(){
     }
 
     // multiply together departure fields in my ticket
-    std::vector<long long> my = input_to_int<long long>(read_input("my_ticket",","));
     long long part2 = my[link[0]]*my[link[1]]*my[link[2]]*my[link[3]]*my[link[4]]*my[link[5]];
 
     std::cout << "Answer (part 2): " << part2 << std::endl;    

@@ -13,21 +13,37 @@
 
 // forward function declarations
 std::vector<std::string> process_substring(std::string value);
-int match_rules(const std::vector<std::string> &input);
+int match_rules(const std::vector<std::string> &input, const std::vector<std::string>& messages);
 
 int main(){
 
-    // read rules into vector of strings
-    std::vector<std::string> input1 = read_input("rules", "");
-    std::vector<std::string> input2 = read_input("rules2","");
+    // read input
+    std::vector<std::string> input = read_input("input_19");
 
-    std::cout << "Answer (part 1): " << match_rules(input1) << std::endl; 
-    std::cout << "Answer (part 2): " << match_rules(input2) << std::endl; 
+    // split into rules and messages
+    std::vector<std::string> input1,input2, messages;
+
+    bool read_rules = false;
+    for (const auto& line : input){
+        if (line.empty()){ read_rules = true; }
+
+        if (!read_rules){ input1.push_back(line);   }
+        else            { messages.push_back(line); }
+    } 
+
+    input2 = input1;
+    auto it = std::find(input2.begin(), input2.end(), "11: 42 31");
+    *it += " | 42 ^ 31";
+    it = std::find(input2.begin(), input2.end(), "8: 42");
+    *it += " | 42 +";
+
+    std::cout << "Answer (part 1): " << match_rules(input1, messages) << std::endl; 
+    std::cout << "Answer (part 2): " << match_rules(input2, messages) << std::endl; 
 
     return 0;
 }
 
-int match_rules(const std::vector<std::string> &input){
+int match_rules(const std::vector<std::string> &input, const std::vector<std::string>& messages){
     
     // map of rules
     std::unordered_map<std::string, std::vector<std::string>> rules;
@@ -83,13 +99,10 @@ int match_rules(const std::vector<std::string> &input){
 
     std::regex full_match(regex_full.str());
 
-    // read rules into vector of strings
-    std::vector<std::string> input2 = read_input("messages", "");
-
     // tally matches
     int tally = 0;
 
-    for (std::string message : input2){
+    for (std::string message : messages){
         if (std::regex_match(message, full_match)){ tally++; }
     }
 
