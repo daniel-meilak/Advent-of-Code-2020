@@ -13,7 +13,7 @@ bool val_id(std::string key, std::string line);
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input", "");
+    std::vector<std::string> input = read_input("input_04", "");
 
     // booleans for passport fields
     bool byr, iyr, eyr, hgt, hcl, ecl, pid; //, cid;

@@ -14,7 +14,7 @@ int navigate(const std::vector<std::pair<char, int>> &nav, const bool part2);
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input", "");
+    std::vector<std::string> input = read_input("input_12", "");
 
     // process input into pair of <string int>
     std::vector<std::pair<char, int>> nav;

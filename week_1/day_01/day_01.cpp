@@ -4,7 +4,7 @@
 
 int main(){
 
-   std::vector<int> input = input_to_int<int>(read_input("input", ""));
+   std::vector<int> input = input_to_int<int>(read_input("input_01", ""));
 
    // work through input
    size_t size = input.size();

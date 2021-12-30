@@ -9,7 +9,7 @@
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input", "");
+    std::vector<std::string> input = read_input("input_21", "");
 
     // map of allergens and possible foods
     std::unordered_map<std::string, std::vector<std::vector<std::string>>> allergen_foods;

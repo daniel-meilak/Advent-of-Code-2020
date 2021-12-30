@@ -14,7 +14,7 @@ int find_term(const std::vector<int> &input, const size_t &term);
 int main(){
 
     // read input into vector of strings.
-    std::vector<int> input = input_to_int<int>(read_input("input", ","));
+    std::vector<int> input = input_to_int<int>(read_input("input_15", ","));
 
     size_t part1 = 2020;
     size_t part2 = 30000000;

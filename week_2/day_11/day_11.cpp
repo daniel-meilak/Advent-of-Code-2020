@@ -8,7 +8,7 @@
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input", "");
+    std::vector<std::string> input = read_input("input_11", "");
 
     // add boundary to system
     // to top and bottom line

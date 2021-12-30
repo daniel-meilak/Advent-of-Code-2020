@@ -8,7 +8,7 @@ long tree_count(int right, int down, std::vector<std::string>& input);
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input", "");
+    std::vector<std::string> input = read_input("input_03", "");
 
     // check different slopes
     long part1 = tree_count(3,1,input);

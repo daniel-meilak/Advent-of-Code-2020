@@ -8,7 +8,7 @@
 int main(){
 
     // read input into vector of long long ints.
-    std::vector<long long int> input = input_to_int<long long int>(read_input("input", ""));
+    std::vector<long long int> input = input_to_int<long long int>(read_input("input_09", ""));
     size_t size = input.size();
 
     // bool vector to check if we have found sum

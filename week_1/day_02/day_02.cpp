@@ -8,7 +8,7 @@ int main(){
 
     // read input into vector of strings.
     std::vector<std::string> delimiters = {"-"," ",":"};
-    std::vector<std::vector<std::string>> input = read_input_2D("input", delimiters);
+    std::vector<std::vector<std::string>> input = read_input_2D("input_02", delimiters);
 
     int min, max, part1=0, part2=0;
     long int matches;

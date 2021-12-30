@@ -21,7 +21,7 @@ long long mask(const std::vector<std::string> &input, const bool part2);
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input", "");
+    std::vector<std::string> input = read_input("input_14", "");
 
     std::cout << "Answer (part 1): " << mask(input,false) << std::endl;
     std::cout << "Answer (part 2): " << mask(input,true ) << std::endl;
