@@ -11,7 +11,7 @@ int main(){
     std::vector<std::string> input = read_input("input_05", "");
 
     std::vector<int> seat_id;
-    int part1, part2;
+    int part1, part2=0;
 
     // loop through input
     for (size_t i=0; i<input.size(); i++){

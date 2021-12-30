@@ -33,7 +33,7 @@ int main(){
 
     bool first_repeat = true;
     
-    int part1, part2;
+    int part1{0}, part2;
 
     // run through memory
     bool running = true;

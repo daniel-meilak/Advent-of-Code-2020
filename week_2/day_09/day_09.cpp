@@ -28,8 +28,8 @@ int main(){
     }
 
     // for part two, save the number
-    long long part1, part2;
-    size_t invalid_index;
+    long long part1{0}, part2;
+    size_t invalid_index{0};
 
     // loop through check looking for false value (invalid number)
     for (size_t i=25; i<size; i++){
@@ -39,7 +39,6 @@ int main(){
             invalid_index = i;
         }
     }
-
 
     // part two
     long long int sum = 0;

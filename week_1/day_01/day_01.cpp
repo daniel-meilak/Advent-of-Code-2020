@@ -4,12 +4,12 @@
 
 int main(){
 
-   std::vector<int> input = input_to_int<int>(read_input("input_01", ""));
+   std::vector<int> input = input_to_int(read_input("input_01", ""));
 
    // work through input
    size_t size = input.size();
 
-   int part1, part2;
+   int part1{0}, part2{0};
 
    // i, j and k never overlap so each triplet is only checked once
    for (size_t i=0; i<size-2; i++){

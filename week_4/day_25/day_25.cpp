@@ -10,10 +10,10 @@ long handshake( long subject_number, long loop_size );
 int main(){
 
     // read input into vector of strings.
-    std::vector<int> input = input_to_int<int>(read_input("input_25", ""));
+    std::vector<int> input = input_to_int(read_input("input_25", ""));
 
     // specific loop values for door and card
-    int card_loop;
+    int card_loop{0};
 
     int loop_max = 100000000;
     int subject_number = 7;
