@@ -9,7 +9,7 @@
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input_08", "");
+    std::vector<std::string> input = read_input("input_08");
 
     // organise input into pair of <string, int>
     std::vector<std::pair<std::string, int>> memory;

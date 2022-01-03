@@ -11,7 +11,7 @@ std::string string_intersection( std::vector<std::string> group, size_t n );
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input_06", "");
+    std::vector<std::string> input = read_input("input_06");
     size_t size = input.size();
 
     // tally of questions answered

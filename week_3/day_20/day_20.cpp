@@ -20,7 +20,7 @@ void flip_vert( std::vector<std::string> &matrix );
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input_20", "");
+    std::vector<std::string> input = read_input("input_20");
 
     // map of puzzle pieces and their index
     std::unordered_map<int,std::vector<std::string>> camera_array;

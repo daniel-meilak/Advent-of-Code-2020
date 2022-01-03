@@ -10,7 +10,7 @@
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input_13", ",");
+    std::vector<std::string> input = read_input("input_13", {","});
     size_t size = input.size();
 
     // vectors to store bus line and index

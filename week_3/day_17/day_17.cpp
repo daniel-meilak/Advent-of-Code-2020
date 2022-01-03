@@ -13,7 +13,7 @@ int sim(std::vector<std::vector<std::vector<std::vector<bool>>>> &p_dim, int &bu
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input_17", "");
+    std::vector<std::string> input = read_input("input_17");
 
     // system buffer is number of cycles+1
     // total sizes are core size + 2*buffer

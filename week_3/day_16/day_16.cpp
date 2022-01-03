@@ -20,7 +20,7 @@ bool count(const std::vector<bool> &vec, int &n);
 int main(){
 
     // read input
-    std::vector<std::string> input = read_input("input_16", ",");
+    std::vector<std::string> input = read_input("input_16", {","});
 
     // separate input into rule_list, tickets and my ticket
     std::vector<std::string> rule_list;
@@ -29,8 +29,10 @@ int main(){
 
     int index = 0;
     for (const auto& line : input){
-        if (line.empty()){ index++; continue; }
-        if (line=="your ticket:" || line=="nearby tickets:"){ continue; }
+        if (line=="your ticket:" || line=="nearby tickets:"){
+            index++;
+            continue;
+        }
 
         switch (index){
             case 0: rule_list.push_back(line); break;

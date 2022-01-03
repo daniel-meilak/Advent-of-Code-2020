@@ -9,7 +9,7 @@
 int main(){
 
     // read input into vector of ints.
-    std::vector<int> input = input_to_int(read_input("input_10", ""));
+    std::vector<int> input = input_to_int(read_input("input_10"));
 
     // add socket to input
     input.push_back(0);

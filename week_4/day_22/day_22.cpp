@@ -13,7 +13,7 @@ std::string list_to_str(std::list<int> cards);
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::vector<std::string>> input = split_input(read_input("input_22", ""), "");
+    std::vector<std::vector<std::string>> input = split_input(read_input("input_22"), "");
 
     // put both players cards into forward lists
     std::list<int> player1, player2;

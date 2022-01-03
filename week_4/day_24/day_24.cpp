@@ -13,7 +13,7 @@ int count(std::vector<bool> &grid);
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input_24", "");
+    std::vector<std::string> input = read_input("input_24");
 
     // regex to match directions individually
     std::regex direction(R"((nw|sw|ne|se|e|w))");

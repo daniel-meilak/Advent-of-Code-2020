@@ -8,7 +8,7 @@
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input_05", "");
+    std::vector<std::string> input = read_input("input_05");
 
     std::vector<int> seat_id;
     int part1, part2=0;

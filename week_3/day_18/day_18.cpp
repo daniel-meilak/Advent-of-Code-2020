@@ -15,7 +15,7 @@ std::string escape_all(std::string line);
 int main(){
 
     // read input into vector of strings.
-    std::vector<std::string> input = read_input("input_18", "");
+    std::vector<std::string> input = read_input("input_18");
 
     long long part1 = 0LL, part2 = 0LL;
 
