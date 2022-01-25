@@ -63,7 +63,7 @@ int main(){
 
         // remove top and bottom
         pair.second.erase(pair.second.begin());
-        pair.second.erase(std::next(pair.second.end()-1));
+        pair.second.erase(std::next(pair.second.end(),-1));
 
         // remove sides
         for (size_t i=0; i<pair.second.size(); i++){
