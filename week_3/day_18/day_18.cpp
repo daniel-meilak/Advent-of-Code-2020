@@ -101,20 +101,20 @@ long long do_math(std::string line, const bool part2){
 std::string expand_brackets(std::string &line, const bool part2){
 
     // matches bracketed arithmetic expression eg "(1 + 2 * 3)"
-    std::regex bracketed(R"(\([0-9 \+\*]+\))");
+    std::regex bracketed(R"(\([0-9\s\+\*]+\))");
 
-    // match all bracketed expressions
-    std::sregex_iterator match( line.begin(), line.end(), bracketed );
-    std::sregex_iterator match_end;
+    std::smatch match;
+    std::regex_search(line, match, bracketed);
 
-    while ( match != match_end ){
-        std::string equation = match->str();
+    while ( !match.empty() ){
+        
+        std::string equation = match[0];
         
         std::string answer = std::to_string(do_math(equation.substr(1, equation.size()-2),part2));
 
         line = std::regex_replace(line, std::regex(escape_all(equation)), answer, std::regex_constants::format_first_only);
         
-        match++;
+        std::regex_search(line, match, bracketed);
     }
 
     if (contains_brackets(line)){ expand_brackets(line,part2); }
