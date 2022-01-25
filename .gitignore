@@ -5,3 +5,5 @@ output
 input_test
 .vscode/*
 build/*
+out/*
+.vs/
