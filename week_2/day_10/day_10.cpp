@@ -4,7 +4,7 @@
 #include<algorithm>
 #include<cstdlib>
 #include<ranges>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 int main(){
 

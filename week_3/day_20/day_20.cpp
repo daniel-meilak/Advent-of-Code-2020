@@ -6,7 +6,7 @@
 #include<cstdlib>
 #include<regex>
 #include<map>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 // forward function declarations
 std::vector<int> find_line(int id, std::map<int,std::vector<std::string>> &camera_array, std::string row_col );
@@ -75,7 +75,7 @@ int main(){
     int size = camera_array.begin()->second.size();
 
     // height and width of puzzle
-    int total_size = size*std::sqrt(camera_array.size());
+    int total_size = static_cast<int>(size*std::sqrt(camera_array.size()));
 
     // vector<string> containing finished picture
     std::vector<std::string> finished_picture(total_size);

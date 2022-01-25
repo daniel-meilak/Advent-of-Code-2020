@@ -6,7 +6,7 @@
 #include<list>
 #include<unordered_map>
 #include<map>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 // forward function declarations
 int find_term(const std::vector<int> &input, const size_t &term);
