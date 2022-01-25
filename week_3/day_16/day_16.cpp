@@ -5,7 +5,7 @@
 #include<regex>
 #include<unordered_map>
 #include<cstdlib>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 class rule_t{
 public:

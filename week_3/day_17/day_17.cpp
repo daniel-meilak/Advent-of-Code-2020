@@ -3,7 +3,7 @@
 #include<string>
 #include<algorithm>
 #include<cstdlib>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 // forward function declaration
 int active_neighbours(std::vector<std::vector<std::vector<std::vector<bool>>>> &system, int x, int y, int z, int w, bool part2);

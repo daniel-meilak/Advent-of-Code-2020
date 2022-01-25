@@ -3,7 +3,7 @@
 #include<string>
 #include<algorithm>
 #include<cstdlib>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 void crab_cups(int n, std::vector<int> &cups, int start);
 void part1(std::vector<int> input);

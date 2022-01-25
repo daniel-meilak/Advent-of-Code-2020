@@ -6,7 +6,7 @@
 #include<utility>
 #include<cstdlib>
 #include<cmath>
-#include"../../Utils/utils.h"
+#include"utils.h"
 
 // forward function declarations
 int navigate(const std::vector<std::pair<char, int>> &nav, const bool part2);
