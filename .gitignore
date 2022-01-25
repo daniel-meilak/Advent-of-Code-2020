@@ -7,3 +7,4 @@ input_test
 build/*
 out/*
 .vs/
+CMakeSettings.json
