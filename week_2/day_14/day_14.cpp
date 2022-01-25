@@ -9,13 +9,13 @@
 #include"utils.h"
 
 // forward function declarations
-long int find_address( std::string line );
-long int find_value( std::string line );
-std::vector<long int> apply_mask2( long int &value, std::string mask );
-std::vector<long int> floating_binary( std::string line );
-void apply_mask( long int &value, std::string mask );
-void set_bit( long int &num, long int position );
-void clear_bit( long int &num, long int position );
+long long find_address( std::string line );
+long long find_value( std::string line );
+std::vector<long long> apply_mask2( long long &value, std::string mask );
+std::vector<long long> floating_binary( std::string line );
+void apply_mask( long long &value, std::string mask );
+void set_bit( long long &num, long long position );
+void clear_bit( long long &num, long long position );
 long long mask(const std::vector<std::string> &input, const bool part2);
 
 int main(){
@@ -32,7 +32,7 @@ int main(){
 long long mask(const std::vector<std::string> &input, const bool part2){
     
     // Memory map (cant use 0-size as too large)
-    std::map<long int, long int> memory;
+    std::map<long long, long long> memory;
 
     // place to hold the current mask
     std::string mask;
@@ -53,16 +53,16 @@ long long mask(const std::vector<std::string> &input, const bool part2){
         else {
 
             // store address and value
-            long int address = find_address(line);
-            long int value   = find_value(line);
+            long long address = find_address(line);
+            long long value   = find_value(line);
 
 
             if (part2){
                 // find the floating addresses
-                std::vector<long int> floating_address = apply_mask2(address,mask);
+                std::vector<long long> floating_address = apply_mask2(address,mask);
 
                 // add values to memory map
-                for ( long int index : floating_address ){
+                for ( long long index : floating_address ){
                     memory[index] = value;
                 }
             }
@@ -87,7 +87,7 @@ long long mask(const std::vector<std::string> &input, const bool part2){
 // 1 sets value to 1
 // 0 sets value to 0
 // X does nothing
-void apply_mask( long int &value, std::string mask ){
+void apply_mask( long long &value, std::string mask ){
 
     for (unsigned int i=0; i<mask.size(); i++){
 
@@ -102,7 +102,7 @@ void apply_mask( long int &value, std::string mask ){
 // 1 sets value to 1
 // 0 does nothing
 // X creates floating values which need to be resolved
-std::vector<long int> apply_mask2( long int &value, std::string mask ){
+std::vector<long long> apply_mask2( long long &value, std::string mask ){
 
     // conver address to binary (string)
     std::string binary = std::bitset<36>(value).to_string();
@@ -124,11 +124,11 @@ std::vector<long int> apply_mask2( long int &value, std::string mask ){
 // finds the floating values such that string 'XX'
 // become vector<string> {'11','10','01','00'}
 // which is converted to vector<int> {3,2,1,0}
-std::vector<long int> floating_binary( std::string line ){
+std::vector<long long> floating_binary( std::string line ){
 
     // combinations holds string, values int version
     std::vector<std::string> combinations;
-    std::vector<long int> values;
+    std::vector<long long> values;
 
     // key holds unresolved values (contain 'X')
     std::list<std::string> key;
@@ -160,28 +160,28 @@ std::vector<long int> floating_binary( std::string line ){
 
     // change values from binary (string) to int
     for ( std::string binary : combinations ){
-        values.push_back(std::bitset<36>(binary).to_ulong());
+        values.push_back(std::bitset<36>(binary).to_ullong());
     }
 
     return values;
 }
 
 // set bit at position to 1
-void set_bit(long int &num, long int position)
+void set_bit(long long &num, long long position)
 {
-	long int mask = 1UL << position;
+	long long mask = 1ULL << position;
 	num =  num | mask;
 }
 
 // clear bit at position to 0
-void clear_bit(long int &num, long int position)
+void clear_bit(long long &num, long long position)
 {
-	long int mask = 1UL << position;
+	long long mask = 1ULL << position;
 	num = num & ~mask;
 }
 
 // exctract address from line
-long int find_address( std::string line ){
+long long find_address( std::string line ){
 
     size_t pos = line.find(']');
 
@@ -189,7 +189,7 @@ long int find_address( std::string line ){
 }
 
 // extract value from line
-long int find_value( std::string line ){
+long long find_value( std::string line ){
 
     size_t pos = line.find('=');
 
