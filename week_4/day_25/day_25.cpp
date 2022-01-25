@@ -5,7 +5,7 @@
 #include<cstdlib>
 #include"utils.h"
 
-long handshake( long subject_number, long loop_size );
+long long handshake( long long subject_number, long long loop_size );
 
 int main(){
 
@@ -40,20 +40,20 @@ int main(){
         if (card_found && door_found){ break; }
     }
 
-    long encryption_key = handshake(input[1], card_loop);
+    long long encryption_key = handshake(input[1], card_loop);
 
     std::cout << "Answer (part 1): " << encryption_key << std::endl;
 
     return 0;
 }
 
-long handshake( long subject_number, long loop_size ){
+long long handshake( long long subject_number, long long loop_size ){
 
-    long output = 1UL;
+    long long output = 1ULL;
 
     for (int i=0; i<loop_size; i++){
         output *= subject_number;
-        output = output % 20201227UL;
+        output = output % 20201227ULL;
     }
 
     return output;

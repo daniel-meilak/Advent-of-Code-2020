@@ -48,7 +48,7 @@ void part2(std::vector<int> input){
     // play cups 10 million times
     crab_cups(10000000, cups, input.front());
 
-    long answer = 1UL * cups[1] * cups[cups[1]];
+    long long answer = 1ULL * cups[1] * cups[cups[1]];
 
     std::cout << "Answer (part 2): " << answer << std::endl;
 }
