@@ -5,13 +5,13 @@
 #include<cmath>
 #include<cstdlib>
 #include<regex>
-#include<unordered_map>
+#include<map>
 #include"../../Utils/utils.h"
 
 // forward function declarations
-std::vector<int> find_line(int id, std::unordered_map<int,std::vector<std::string>> &camera_array, std::string row_col );
+std::vector<int> find_line(int id, std::map<int,std::vector<std::string>> &camera_array, std::string row_col );
 void find_monster(std::vector<std::string> &picture);
-void find_neighbours(std::string border, std::vector<int> &row, std::unordered_map<int,std::vector<std::string>> &camera_array, std::string side);
+void find_neighbours(std::string border, std::vector<int> &row, std::map<int,std::vector<std::string>> &camera_array, std::string side);
 std::string check_piece( std::string &border, std::vector<std::string> &piece, std::string side);
 void rotate( std::vector<std::string> &matrix, std::string direction );
 void flip( std::vector<std::string> &matrix );
@@ -23,7 +23,7 @@ int main(){
     std::vector<std::string> input = read_input("input_20");
 
     // map of puzzle pieces and their index
-    std::unordered_map<int,std::vector<std::string>> camera_array;
+    std::map<int,std::vector<std::string>> camera_array;
 
     // store indexes and camera piece
     int index;
@@ -63,7 +63,7 @@ int main(){
 
         // remove top and bottom
         pair.second.erase(pair.second.begin());
-        pair.second.erase(pair.second.end());
+        pair.second.erase(std::next(pair.second.end()-1));
 
         // remove sides
         for (size_t i=0; i<pair.second.size(); i++){
@@ -91,7 +91,6 @@ int main(){
     // find the monster after rotating the image
     flip(finished_picture);
     rotate(finished_picture, "right");
-    rotate(finished_picture, "right");
     find_monster(finished_picture);
 
     // count number of leftover #
@@ -100,7 +99,7 @@ int main(){
         tally += std::count(line.begin(), line.end(), '#'); 
     }
 
-    std::cout << "Answer (part 2): " << tally << std::endl;    
+    std::cout << "Answer (part 2): " << tally << std::endl;
 
     return 0;
 }
@@ -151,7 +150,7 @@ void find_monster(std::vector<std::string> &picture){
 }
 
 // creates vector containing all connecting puzzle pieces to left and right of input piece
-std::vector<int> find_line(int id, std::unordered_map<int,std::vector<std::string>> &camera_array, std::string row_col ){
+std::vector<int> find_line(int id, std::map<int,std::vector<std::string>> &camera_array, std::string row_col ){
 
     // get piece 
     std::vector<std::string> main_piece = camera_array[id];
@@ -186,7 +185,7 @@ std::vector<int> find_line(int id, std::unordered_map<int,std::vector<std::strin
     return row;
 }
 
-void find_neighbours(std::string border, std::vector<int> &row, std::unordered_map<int,std::vector<std::string>> &camera_array, std::string side){
+void find_neighbours(std::string border, std::vector<int> &row, std::map<int,std::vector<std::string>> &camera_array, std::string side){
 
     bool at_edge = false;
     std::string old_border;
